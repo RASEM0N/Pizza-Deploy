@@ -1,0 +1,20 @@
+# Todo
+
+version: "3"
+
+services:
+    backend:
+      container_name: api
+      build: backend
+
+    nuxt:
+      container_name: client/nuxt
+      build: frontend-nuxt
+
+    nextjs:
+      container_name: client/nextjs
+      build: frontend-nextjs
+
+    telegram:
+      container_name: client/telegram-bot
+      build: telegram-bot
