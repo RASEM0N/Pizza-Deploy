@@ -40,7 +40,7 @@ export default defineNuxtConfig({
 		middleware: 'src/app/middleware',
 	},
 	alias: {
-		'@shared/*': '../src/shared/*'
+		'@shared/*': '../src/shared/*',
 	},
 	components: [
 		{
@@ -73,12 +73,12 @@ export default defineNuxtConfig({
 			{
 				code: 'en',
 				language: 'en-US',
-				file: 'en.json'
+				file: 'en.json',
 			},
 			{
 				code: 'ru',
 				language: 'ru-RU',
-				file: 'ru.json'
+				file: 'ru.json',
 			},
 		],
 	},

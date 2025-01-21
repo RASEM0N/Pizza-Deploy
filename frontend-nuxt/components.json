@@ -13,6 +13,6 @@
   "framework": "nuxt",
   "aliases": {
     "components": "@/src/shared",
-    "utils": "../../lib/cls"
+    "utils": "@shared/lib/cls"
   }
 }

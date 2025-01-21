@@ -17,6 +17,7 @@
     "@nuxtjs/tailwindcss": "^6.13.1",
     "@pinia/nuxt": "^0.9.0",
     "@vee-validate/nuxt": "^4.15.0",
+    "@vueuse/core": "^12.4.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-vue-next": "^0.473.0",

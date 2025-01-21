@@ -5,9 +5,7 @@ export default {
 	darkMode: ['class'],
 	safelist: ['dark'],
 	prefix: '',
-	content: [
-		'./src/**/*.{ts,vue}',
-	],
+	content: ['./src/**/*.{ts,vue}'],
 
 	theme: {
 		container: {

@@ -12,7 +12,6 @@ useHead(() => ({
 	meta: i18nHead.value.meta,
 	link: i18nHead.value.link,
 }));
-
 </script>
 <template>
 	<div>
