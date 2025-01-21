@@ -30,9 +30,11 @@ export default defineNuxtConfig({
 		'@nuxtjs/i18n',
 		'@nuxtjs/color-mode',
 		'@nuxtjs/tailwindcss',
+		'@nuxtjs/google-fonts',
 		'@pinia/nuxt',
 		'@vee-validate/nuxt',
 		'shadcn-nuxt',
+		'nuxt-lucide-icons',
 	],
 	dir: {
 		pages: 'src/pages',
@@ -85,4 +87,16 @@ export default defineNuxtConfig({
 	tailwindcss: {
 		cssPath: 'src/app/style.css',
 	},
+	googleFonts: {
+		display: 'swap',
+		prefetch: true,
+		preconnect: true,
+		preload: true,
+		families: {
+			Nunito: ['400', '500', '600', '700', '800', '900'],
+		},
+	},
+	lucide: {
+		namePrefix: 'Icon'
+	}
 });
