@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { Header } from '~/src/widgets/Header';
+
 const i18nHead = useLocaleHead();
-const { locale } = useI18n();
 
 // https://i18n.nuxtjs.org/docs/composables/use-locale-head
 // информация:
@@ -15,7 +16,7 @@ useHead(() => ({
 </script>
 <template>
 	<div>
-		<header>Header {{ locale }}</header>
+		<Header/>
 		<main>
 			<slot />
 		</main>
