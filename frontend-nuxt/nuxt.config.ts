@@ -39,6 +39,9 @@ export default defineNuxtConfig({
 		layouts: 'src/app/layouts',
 		middleware: 'src/app/middleware',
 	},
+	alias: {
+		'@shared/*': '../src/shared/*'
+	},
 	components: [
 		{
 			path: 'src/widgets',
