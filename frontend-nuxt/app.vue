@@ -1,6 +1,6 @@
+<!--https://nuxt.com/docs/guide/directory-structure/app-->
 <template>
-	<div>
-		<NuxtRouteAnnouncer />
-		<NuxtWelcome />
-	</div>
+	<NuxtLayout>
+		<NuxtPage/>
+	</NuxtLayout>
 </template>
