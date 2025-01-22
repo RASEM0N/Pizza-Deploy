@@ -15,5 +15,19 @@
   "sort": {
     "name": "Сортировка",
     "popular": "популярное"
+  },
+  "product_filter": {
+    "name": "Фильтрация",
+    "price": "Цена от и до:",
+    "status": {
+      "new": "Новинки",
+      "can_collect": "Можно собирать"
+    },
+    "group": {
+      "yet": "Показать ещё",
+      "search": "Поиск...",
+      "button_hide": "Скрыть",
+      "button_show_all": "+ Показать всё"
+    }
   }
 }

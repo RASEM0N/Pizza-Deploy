@@ -64,7 +64,6 @@ export default defineNuxtConfig({
 		},
 	],
 	i18n: {
-		lazy: true,
 		strategy: 'prefix',
 		defaultLocale: 'ru',
 		baseUrl: 'http://localhost:3000',
