@@ -33,6 +33,7 @@ export default defineNuxtConfig({
 		'@nuxtjs/google-fonts',
 		'@pinia/nuxt',
 		'@vee-validate/nuxt',
+		'@vueuse/nuxt',
 		'shadcn-nuxt',
 		'nuxt-lucide-icons',
 	],
