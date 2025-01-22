@@ -7,7 +7,7 @@ import { StoryModule } from '@/modules/story/story.module';
 import { UserModule } from '@/modules/user/user.module';
 
 @Module({
-	providers: [
+	imports: [
 		PrismaModule,
 		AuthModule,
 		CartModule,
