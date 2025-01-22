@@ -3,14 +3,7 @@ import { Categories } from '~/src/entities/category';
 import { ProductFilter } from '~/src/features/product-filter';
 import { ProductGroupList } from '~/src/entities/product';
 
-
-// @TODO надо по другому сделать
-const active = ref(0);
 const { t } = useI18n();
-
-const setActive = (id) => {
-	active.value = id;
-};
 
 const categories = [
 	'Пиццы',
@@ -32,7 +25,7 @@ const categories = [
 
 	<div class="sticky top-0 bg-white py-5 shadow-lg shadow-black/5">
 		<UiContainer class="flex items-center justify-between">
-			<Categories :active="active" :items="categories" />
+			<Categories :items="categories" />
 			<UiSortPopup />
 		</UiContainer>
 	</div>
@@ -47,7 +40,6 @@ const categories = [
 				<div class="flex flex-col gap-16">
 					<ProductGroupList
 						title="Пиццы"
-						@active="setActive"
 						:id="0"
 						:products="[
 							{
@@ -78,7 +70,6 @@ const categories = [
 					/>
 					<ProductGroupList
 						title="Пиццы вкусные"
-						@active="setActive"
 						:id="1"
 						:products="[
 							{
@@ -109,7 +100,6 @@ const categories = [
 					/>
 					<ProductGroupList
 						title="Пиццы вкусные"
-						@active="setActive"
 						:id="2"
 						:products="[
 							{

@@ -6,6 +6,8 @@ import ProductFilterCheckboxGroup from './ProductFilterCheckboxGroup.vue';
 // @TODO все числовые значения должны приходить с бэка
 // не должно быть захардкодено
 
+// @TODO Slider при скролле выше шапки становится по композиции
+
 const { t } = useI18n();
 const price = ref([0, 30000]);
 </script>

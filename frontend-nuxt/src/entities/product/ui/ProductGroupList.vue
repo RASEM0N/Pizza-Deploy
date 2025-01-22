@@ -1,5 +1,9 @@
 <script setup lang="ts">
+// @TODO перенести в Widgets
 import ProductCard from './ProductCard.vue';
+
+// @TODO умпорт не тот
+import { useCategory } from '~/src/features/product-filter/model/model';
 
 interface Props {
 	id: number;
@@ -8,6 +12,8 @@ interface Props {
 	// @TODO Product
 	products: any[];
 }
+
+const category = useCategory();
 
 const { id, title, products = [] } = defineProps<Props>();
 const emits = defineEmits<{ active: [id: number] }>();
@@ -18,6 +24,7 @@ useIntersectionObserver(
 	target,
 	([entry]) => {
 		if (entry?.isIntersecting) {
+			category.setActiveId(id);
 			emits('active', id);
 		}
 	},
