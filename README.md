@@ -4,6 +4,9 @@
 - [Nuxt](frontend-nuxt/README.md)
 - [Telegram Bot](telegram-bot/README.md)
 
+## Todo
+- Дополнить каждый документ, библиотеками или оставить их здесь, а в личный доках, как запустить и т.д.
+
 ## Todo Nest
 - Shared вынести в пакеты
 
