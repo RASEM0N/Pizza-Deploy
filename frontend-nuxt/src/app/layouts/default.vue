@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Header } from '~/src/widgets/Header';
+import { PageHeader } from '~/src/widgets/Header';
 
 const i18nHead = useLocaleHead();
 
@@ -15,11 +15,8 @@ useHead(() => ({
 }));
 </script>
 <template>
-	<div>
-		<Header/>
-		<main>
-			<slot />
-		</main>
-		<footer>Footer</footer>
-	</div>
+	<main class="min-h-screen bg-white rounded-3xl">
+		<PageHeader />
+		<slot></slot>
+	</main>
 </template>
