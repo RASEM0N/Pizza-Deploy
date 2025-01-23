@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/shared/prisma';
 import { User } from '@prisma/client';
-import { LoginDto } from './dto/login.dto';
+import { LoginDto, RegisterDto } from './dto/login.dto';
 import { UserService } from '@/modules/user/user.service';
-import { CreateUserDto } from '@/modules/user/dto/create.dto';
 import { ResendService } from 'nestjs-resend';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
@@ -12,20 +12,23 @@ export class AuthService {
 		private readonly prisma: PrismaService,
 		private readonly userService: UserService,
 		private readonly resendService: ResendService,
+		private readonly jwtService: JwtService,
 	) {}
 
 	async login(dto: LoginDto): Promise<{ user: User; token: string }> {
-		return this.userService.validateUser(dto.email, dto.password);
+		const user = await this.userService.validateUser(dto.email, dto.password);
+		const token = this.jwtService.sign({ userId: user.id });
+
+		return { user, token };
 	}
 
-	async register(dto: CreateUserDto): Promise<User> {
+	async register(dto: RegisterDto): Promise<User> {
 		const user = this.userService.create(dto);
 
 		await this.resendService.send({
-
 			// @TODO Ban
 			from: 'onboarding@resend.dev',
-			to: '',
+			to: user.email,
 			subject: '',
 			html: '',
 		});

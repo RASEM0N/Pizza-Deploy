@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Post, Query, Response, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { CurrentUser } from './auth-user.decorator';
-import { JwtAuthGuard } from './auth-jwt.guard';
-import { LoginDto } from './dto/login.dto';
+import { CurrentUser } from './decorator/auth-user.decorator';
+import { JwtAuthGuard } from './guard/auth-jwt.guard';
+import { LoginDto, RegisterDto } from './dto/login.dto';
 import { Response as ExpResponse } from 'express';
-import { CreateUserDto } from '@/modules/user/dto/create.dto';
 import { User } from '@prisma/client';
+import { clearAuthToken, setAuthToken } from '@/modules/auth/lib/cookie';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -20,23 +20,20 @@ export class AuthController {
 	}
 
 	@Post('register')
-	register(@Body() dto: CreateUserDto) {
+	register(@Body() dto: RegisterDto) {
 		return this.authService.register(dto);
 	}
 
 	@Post('login')
 	async login(@Response() response: ExpResponse, @Body() dto: LoginDto) {
 		const { user, token } = await this.authService.login(dto);
-
-		// @TODO
-		response.cookie('jwt', token, { maxAge: 3600 * 1000 * 24 * 30 });
-
+		setAuthToken(response, token);
 		return user;
 	}
 
 	@Post('logout')
 	logout(@Response() response: ExpResponse) {
-		response.clearCookie('jwt');
+		clearAuthToken(response);
 	}
 
 	@Post('verify')

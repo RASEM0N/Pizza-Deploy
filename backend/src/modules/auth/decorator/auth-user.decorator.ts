@@ -8,5 +8,5 @@ export const CurrentUser = createParamDecorator((_, ctx: ExecutionContext): User
 		throw new Error('user is empty');
 	}
 
-	return ctx.switchToHttp().getRequest()['res'];
+	return user
 });

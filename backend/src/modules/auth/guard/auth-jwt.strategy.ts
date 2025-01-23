@@ -1,10 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { Strategy, ExtractJwt } from 'passport-jwt';
-import { User } from '@prisma/client';
-import { UserService } from '@/modules/user/user.service';
-import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
+import { User } from '@prisma/client';
+import { Strategy, ExtractJwt } from 'passport-jwt';
+import { UserService } from '@/modules/user/user.service';
+import { getAuthToken } from '../lib/cookie';
 
 // https://docs.nestjs.com/recipes/passport#implementing-passport-jwt
 @Injectable()
@@ -13,18 +13,16 @@ export class AuthJwtStrategy extends PassportStrategy(Strategy, 'jwt-auth') {
 		private readonly userService: UserService,
 		private readonly configService: ConfigService,
 	) {
+		const secret = configService.get('JWT_SECRET');
+		const jwtCookie = ExtractJwt.fromExtractors([getAuthToken]);
+
 		// @TODO
 		// @ts-ignore
-		super({
-			jwtFromRequest: ExtractJwt.fromExtractors([
-				(req: Request) => req.cookies['jwt'],
-			]),
-			secretOrKey: configService.get('JWT_SECRET'),
-		});
+		super({ jwtFromRequest: jwtCookie, secretOrKey: secret });
 	}
 
-	async validate({ userId }: { userId: number }): Promise<User> {
-		const user = await this.userService.get(userId);
+	async validate(jwtPayload: { userId: number }): Promise<User> {
+		const user = await this.userService.get(jwtPayload.userId);
 
 		if (!user) {
 			throw new UnauthorizedException();
