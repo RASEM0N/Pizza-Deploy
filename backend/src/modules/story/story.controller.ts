@@ -1,6 +1,14 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { StoryService } from './story.service';
 
 @ApiTags('Story')
-@Controller()
-export class StoryController {}
+@Controller('story')
+export class StoryController {
+	constructor(private readonly storyService: StoryService) {}
+
+	@Get()
+	get() {
+		return this.storyService.getAll();
+	}
+}
