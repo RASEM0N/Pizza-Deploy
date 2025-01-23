@@ -24,7 +24,7 @@ export class CartController {
 		return this.cartService.create(dto, token);
 	}
 
-	@Delete()
+	@Delete(':cartItemId')
 	delete(
 		@Cookie('cart-token') token: string,
 		@Param('cartItemId') cartItemId: number,
@@ -32,7 +32,7 @@ export class CartController {
 		return this.cartService.deleteItem(token, cartItemId);
 	}
 
-	@Put()
+	@Put(':cartItemId')
 	update(
 		@Cookie('cart-token') token: string,
 		@Param('cartItemId') cartItemId: number,

@@ -22,7 +22,6 @@ export class UserService {
 	async validateUser(email: string, password: string): Promise<User> {
 		const user = await this.prisma.user.findFirst({
 			where: { email },
-			select: { password: false },
 		});
 
 		// @TODO Ban

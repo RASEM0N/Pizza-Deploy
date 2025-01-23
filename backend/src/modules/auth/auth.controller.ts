@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Query, Response, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Response, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './auth-user.decorator';
@@ -19,12 +19,12 @@ export class AuthController {
 		return user;
 	}
 
-	@Get('register')
+	@Post('register')
 	register(@Body() dto: CreateUserDto) {
 		return this.authService.register(dto);
 	}
 
-	@Get('login')
+	@Post('login')
 	async login(@Response() response: ExpResponse, @Body() dto: LoginDto) {
 		const { user, token } = await this.authService.login(dto);
 
@@ -34,12 +34,12 @@ export class AuthController {
 		return user;
 	}
 
-	@Get('logout')
+	@Post('logout')
 	logout(@Response() response: ExpResponse) {
 		response.clearCookie('jwt');
 	}
 
-	@Get('verify')
+	@Post('verify')
 	async verify(
 		@Response() response: ExpResponse,
 		@Query('code') code: string,
