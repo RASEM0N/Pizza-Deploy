@@ -3,13 +3,13 @@ import { PrismaService } from '@/shared/prisma';
 import { Cart, CartItem } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 import { CreateCartDto } from './dto/create.dto';
+import { UpdateCartDto } from '@/modules/cart/dto/update.dto';
 
 @Injectable()
 export class CartService {
-	constructor(private readonly prisma: PrismaService) {
-	}
+	constructor(private readonly prisma: PrismaService) {}
 
-	get(token: string, fall = false): Promise<Cart> {
+	async get(token: string, fall = true): Promise<Cart> {
 		return (fall ? this.prisma.cart.findFirst : this.prisma.cart.findFirstOrThrow)({
 			where: { token },
 			include: {
@@ -35,6 +35,22 @@ export class CartService {
 		return cart;
 	}
 
+	async update(token: string, cartItemId: number, dto: UpdateCartDto): Promise<Cart> {
+		await this.prisma.cartItem.update({
+			where: { id: cartItemId },
+			data: { quantity: dto.quantity },
+		});
+
+		return this._actualizeTotalAmount(await this.get(token));
+	}
+
+	async deleteItem(token: string, cartItemId: number): Promise<Cart> {
+		await this.prisma.cartItem.findFirstOrThrow({ where: { id: cartItemId } });
+		await this.prisma.cartItem.delete({ where: { id: cartItemId } });
+
+		return await this._actualizeTotalAmount(await this.get(token));
+	}
+
 	async createOrUpdateItem(cartId: Cart, dto: CreateCartDto): Promise<CartItem> {
 		const cartItem = await this.prisma.cartItem.findFirst({
 			where: {
@@ -54,6 +70,7 @@ export class CartService {
 				data: { quantity: cartItem.quantity + 1 },
 			});
 		}
+
 		return this.prisma.cartItem.create({
 			data: {
 				cartId,
@@ -95,11 +112,17 @@ export class CartService {
 	}
 
 	private _calculateTotalAmount(cart: Cart): number {
-		return cart.item.reduce((res, item) => res + this._calculateItemTotalPrice(item), 0);
+		return cart.item.reduce(
+			(res, item) => res + this._calculateItemTotalPrice(item),
+			0,
+		);
 	}
 
 	private _calculateItemTotalPrice(item: CartItem): number {
-		const ingredientPrice = item.ingredients.reduce((acc, ingredient) => acc + ingredient.price, 0);
+		const ingredientPrice = item.ingredients.reduce(
+			(acc, ingredient) => acc + ingredient.price,
+			0,
+		);
 		return (ingredientPrice + item.productItem.price) * item.quantity;
 	}
 }
