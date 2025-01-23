@@ -10,6 +10,7 @@ import { StoryModule } from '@/modules/story/story.module';
 import { UserModule } from '@/modules/user/user.module';
 import { IngredientModule } from '@/modules/ingredient/ingredient.module';
 import * as Joi from 'joi';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
 	imports: [
@@ -22,6 +23,7 @@ import * as Joi from 'joi';
 		UserModule,
 		// --- ------- ---
 
+		PassportModule,
 		PrismaModule,
 
 		// https://docs.nestjs.com/techniques/configuration
@@ -32,7 +34,7 @@ import * as Joi from 'joi';
 				APP_PORT: Joi.number().required(),
 				RESEND_KEY: Joi.string().required(),
 				DATABASE_URL: Joi.string().required(),
-				JWT_SECRET_KEY: Joi.string().required(),
+				JWT_SECRET: Joi.string().required(),
 				JWY_EXPIRE: Joi.string().required(),
 			}),
 		}),
@@ -44,7 +46,7 @@ import * as Joi from 'joi';
 			inject: [ConfigService],
 			useFactory: (configService: ConfigService) => {
 				return {
-					secret: configService.get('JWT_SECRET_KEY'),
+					secret: configService.get('JWT_SECRET'),
 					signOptions: {
 						expiresIn: configService.get('JWY_EXPIRE'),
 					},

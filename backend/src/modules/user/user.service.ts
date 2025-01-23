@@ -7,11 +7,27 @@ import { PrismaService } from '@/shared/prisma';
 export class UserService {
 	constructor(private readonly prisma: PrismaService) {}
 
-	getAll(): Promise<User[]> {
-		return this.prisma.user.findMany();
+	get(id: number): Promise<User> {
+		return this.prisma.user.findFirst({ where: { id }, select: { password: false } });
 	}
 
-	create(data: CreateUserDto): Promise<User> {
-		return this.prisma.user.create({ data });
+	getAll(): Promise<User[]> {
+		return this.prisma.user.findMany({ select: { password: false } });
+	}
+
+	create(dto: CreateUserDto): Promise<User> {
+		return this.prisma.user.create({ data: dto, select: { password: false } });
+	}
+
+	async validateUser(email: string, password: string): Promise<User | null> {
+		const user = await this.prisma.user.findFirst({ where: { email } });
+
+
+		// @TODO Ban
+		if (user && user.password === password) {
+			return password;
+		}
+
+		return null;
 	}
 }
