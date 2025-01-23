@@ -93,6 +93,11 @@ export class CartService {
 		return this.prisma.cart.create({ data: { token } });
 	}
 
+	async clear(id: number): Promise<void> {
+		await this.prisma.cart.update({ where: { id }, data: { totalAmount: 0 } });
+		await this.prisma.cartItem.deleteMany({ where: { cartId: id } });
+	}
+
 	private _actualizeTotalAmount(cart: Cart): Promise<Cart> {
 		return this.prisma.cart.update({
 			where: { id: cart.id },
