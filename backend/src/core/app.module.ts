@@ -23,7 +23,6 @@ import { PassportModule } from '@nestjs/passport';
 		UserModule,
 		// --- ------- ---
 
-		PassportModule,
 		PrismaModule,
 
 		// https://docs.nestjs.com/techniques/configuration

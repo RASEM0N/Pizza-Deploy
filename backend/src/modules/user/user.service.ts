@@ -19,15 +19,17 @@ export class UserService {
 		return this.prisma.user.create({ data: dto, select: { password: false } });
 	}
 
-	async validateUser(email: string, password: string): Promise<User | null> {
-		const user = await this.prisma.user.findFirst({ where: { email } });
-
+	async validateUser(email: string, password: string): Promise<User> {
+		const user = await this.prisma.user.findFirst({
+			where: { email },
+			select: { password: false },
+		});
 
 		// @TODO Ban
 		if (user && user.password === password) {
-			return password;
+			return user;
 		}
 
-		return null;
+		throw new Error('Error validation');
 	}
 }

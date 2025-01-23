@@ -1,24 +1,21 @@
 import { Body, Controller, Get, Query, Response, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
+import { CurrentUser } from './auth-user.decorator';
+import { JwtAuthGuard } from './auth-jwt.guard';
+import { LoginDto } from './dto/login.dto';
 import { Response as ExpResponse } from 'express';
 import { CreateUserDto } from '@/modules/user/dto/create.dto';
-import { UserService } from '@/modules/user/user.service';
-import { AuthGuard } from '@nestjs/passport';
 import { User } from '@prisma/client';
-import { AuthUser } from './auth-user.decorator';
-import { LoginDto } from './dto/login.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-	constructor(
-		private readonly authService: AuthService,
-	) {}
+	constructor(private readonly authService: AuthService) {}
 
 	@Get('me')
-	@UseGuards(AuthGuard)
-	me(@AuthUser() user: User) {
+	@UseGuards(JwtAuthGuard)
+	me(@CurrentUser() user: User) {
 		return user;
 	}
 
@@ -39,7 +36,7 @@ export class AuthController {
 
 	@Get('logout')
 	logout(@Response() response: ExpResponse) {
-		response.clearCookie('jwt')
+		response.clearCookie('jwt');
 	}
 
 	@Get('verify')

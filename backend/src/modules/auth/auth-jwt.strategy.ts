@@ -6,8 +6,9 @@ import { UserService } from '@/modules/user/user.service';
 import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
 
+// https://docs.nestjs.com/recipes/passport#implementing-passport-jwt
 @Injectable()
-export class AuthJwtStrategy extends PassportStrategy(Strategy) {
+export class AuthJwtStrategy extends PassportStrategy(Strategy, 'jwt-auth') {
 	constructor(
 		private readonly userService: UserService,
 		private readonly configService: ConfigService,
@@ -22,7 +23,7 @@ export class AuthJwtStrategy extends PassportStrategy(Strategy) {
 		});
 	}
 
-	async validate(userId: number): Promise<User> {
+	async validate({ userId }: { userId: number }): Promise<User> {
 		const user = await this.userService.get(userId);
 
 		if (!user) {
