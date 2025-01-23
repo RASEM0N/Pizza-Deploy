@@ -10,7 +10,7 @@ import { StoryModule } from '@/modules/story/story.module';
 import { UserModule } from '@/modules/user/user.module';
 import { IngredientModule } from '@/modules/ingredient/ingredient.module';
 import * as Joi from 'joi';
-import { PassportModule } from '@nestjs/passport';
+import { YookassaModule } from '@/shared/yookassa';
 
 @Module({
 	imports: [
@@ -35,6 +35,10 @@ import { PassportModule } from '@nestjs/passport';
 				DATABASE_URL: Joi.string().required(),
 				JWT_SECRET: Joi.string().required(),
 				JWY_EXPIRE: Joi.string().required(),
+				YOOKASSA_URL: Joi.string().required(),
+				YOOKASSA_CALLBACK_URL: Joi.string().required(),
+				YOOKASSA_STORE_ID: Joi.string().required(),
+				YOOKASSA_API_KEY: Joi.string().required(),
 			}),
 		}),
 
@@ -60,6 +64,21 @@ import { PassportModule } from '@nestjs/passport';
 			useFactory: (configService: ConfigService) => {
 				return {
 					apiKey: configService.get('RESEND_KEY'),
+				};
+			},
+		}),
+
+		// https://yookassa.ru/developers/api#create_payment
+		YookassaModule.forRootAsync({
+			global: true,
+			imports: [ConfigModule],
+			inject: [ConfigService],
+			useFactory: (configService: ConfigService) => {
+				return {
+					url: configService.get('YOOKASSA_URL'),
+					callbackUrl: configService.get('YOOKASSA_CALLBACK_URL'),
+					apiKey: configService.get('YOOKASSA_STORE_ID'),
+					storeId: configService.get('YOOKASSA_API_KEY'),
 				};
 			},
 		}),
