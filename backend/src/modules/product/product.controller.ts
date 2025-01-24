@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Category, Product } from '@prisma/client';
 import { ProductService } from './product.service';
@@ -14,13 +14,13 @@ export class ProductController {
 	) {}
 
 	@Get(':productId')
-	get(@Param('productId') productId: number): Promise<Product> {
+	get(@Param('productId', ParseIntPipe) productId: number): Promise<Product> {
 		return this.productService.get(productId);
 	}
 
 	// @todo пока что сюда приземлил
-	@Get('search')
-	search(@Body() dto: SearchCategoriesDto): Promise<Category[]> {
+	@Get()
+	search(@Query() dto: SearchCategoriesDto): Promise<Category[]> {
 		return this.categoryService.search(dto);
 	}
 }

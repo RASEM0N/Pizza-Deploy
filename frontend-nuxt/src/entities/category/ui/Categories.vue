@@ -5,19 +5,18 @@ import { cn } from '~/src/shared/lib/cls';
 import { useCategory } from '~/src/features/product-filter/model/model';
 
 interface Props {
-	// @TODO тут объект должен приниматся и локализоватся
-	items: string[];
+	categories: Models.Category[];
 }
 
 const category = useCategory();
-const { items = [] } = defineProps<Props>();
+const { categories = [] } = defineProps<Props>();
 </script>
 <template>
 	<div :class="cn('inline-flex gap-1 bg-gray-50 p-1 rounded-2xl')">
 		<!-- @Todo to -->
 		<NuxtLink
-			v-for="(item, idx) in items"
-			:key="item"
+			v-for="(item, idx) in categories"
+			:key="item.id"
 			:to="'---@TODOOOO---'"
 			:class="[
 				'flex items-center font-bold h-11 rounded-2xl px-5',
@@ -27,7 +26,7 @@ const { items = [] } = defineProps<Props>();
 				},
 			]"
 		>
-			{{ item }}
+			{{ item.name }}
 		</NuxtLink>
 	</div>
 </template>

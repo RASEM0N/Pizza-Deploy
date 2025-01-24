@@ -6,16 +6,12 @@ import ProductCard from './ProductCard.vue';
 import { useCategory } from '~/src/features/product-filter/model/model';
 
 interface Props {
-	id: number;
-	title: string;
-
-	// @TODO Product
-	products: any[];
+	category: Models.Category;
 }
 
-const category = useCategory();
+const categoryStore = useCategory();
 
-const { id, title, products = [] } = defineProps<Props>();
+const { category } = defineProps<Props>();
 const emits = defineEmits<{ active: [id: number] }>();
 
 // https://vueuse.org/core/useIntersectionObserver/#useintersectionobserver
@@ -24,8 +20,8 @@ useIntersectionObserver(
 	target,
 	([entry]) => {
 		if (entry?.isIntersecting) {
-			category.setActiveId(id);
-			emits('active', id);
+			categoryStore.setActiveId(category.id);
+			emits('active', category.id);
 		}
 	},
 	{
@@ -35,10 +31,12 @@ useIntersectionObserver(
 </script>
 <template>
 	<div ref="target">
-		<UiTitle class="font-extrabold mb-5" size="lg">{{ title }}</UiTitle>
+		<UiTitle class="font-extrabold mb-5" size="lg">
+			{{ category.name }}
+		</UiTitle>
 		<div class="grid grid-cols-3 gap-[50px]">
 			<ProductCard
-				v-for="product in products"
+				v-for="product in category.products"
 				:key="product.id"
 				:product="product"
 			/>

@@ -2,21 +2,20 @@
 import { Categories } from '~/src/entities/category';
 import { ProductFilter } from '~/src/features/product-filter';
 import { ProductGroupList } from '~/src/entities/product';
+import { useApiFetch } from '~/src/shared/api';
 
+// @TODO проверить что загружается на бэке
+// сюда еще body на основе текущего query надо передавать
+
+const { data, error } = await useApiFetch<Models.Category[]>('/api/product', {
+	query: {
+
+	}
+});
 const { t } = useI18n();
-
-const categories = [
-	'Пиццы',
-	'Комбо',
-	'Закуски',
-	'Коктейли',
-	'Кофе',
-	'Напитки',
-	'Десерты',
-	'Десерты',
-];
 </script>
 <template>
+	<h1>{{ error }}</h1>
 	<UiContainer class="mt-5">
 		<UiTitle size="lg" class="font-extrabold">
 			{{ t('pages.home.title') }}
@@ -25,7 +24,7 @@ const categories = [
 
 	<div class="sticky top-0 bg-white py-5 shadow-lg shadow-black/5">
 		<UiContainer class="flex items-center justify-between">
-			<Categories :items="categories" />
+			<Categories :categories="data" />
 			<UiSortPopup />
 		</UiContainer>
 	</div>
@@ -39,94 +38,9 @@ const categories = [
 			<div class="flex-1">
 				<div class="flex flex-col gap-16">
 					<ProductGroupList
-						title="Пиццы"
-						:id="0"
-						:products="[
-							{
-								id: 1,
-								name: 'Пицца 1',
-								description:
-									'Вкусная пицца с анасами и майонезом провансаль',
-								price: 500,
-								imgUrl: 'https://будем-жарить.рф/upload/iblock/9a0/lw8r56xqa2dylwq2qv2sjcvnequ5fyaf.png',
-							},
-							{
-								id: 2,
-								name: 'Пицца 2',
-								description:
-									'Вкусная пицца с анасами и майонезом провансаль',
-								price: 500,
-								imgUrl: 'https://будем-жарить.рф/upload/iblock/9a0/lw8r56xqa2dylwq2qv2sjcvnequ5fyaf.png',
-							},
-							{
-								id: 3,
-								name: 'Пицца 3',
-								description:
-									'Вкусная пицца с анасами и майонезом провансаль',
-								price: 500,
-								imgUrl: 'https://будем-жарить.рф/upload/iblock/9a0/lw8r56xqa2dylwq2qv2sjcvnequ5fyaf.png',
-							},
-						]"
-					/>
-					<ProductGroupList
-						title="Пиццы вкусные"
-						:id="1"
-						:products="[
-							{
-								id: 1,
-								name: 'Пицца 1',
-								description:
-									'Вкусная пицца с анасами и майонезом провансаль',
-								price: 500,
-								imgUrl: 'https://будем-жарить.рф/upload/iblock/9a0/lw8r56xqa2dylwq2qv2sjcvnequ5fyaf.png',
-							},
-							{
-								id: 2,
-								name: 'Пицца 2',
-								description:
-									'Вкусная пицца с анасами и майонезом провансаль',
-								price: 500,
-								imgUrl: 'https://будем-жарить.рф/upload/iblock/9a0/lw8r56xqa2dylwq2qv2sjcvnequ5fyaf.png',
-							},
-							{
-								id: 3,
-								name: 'Пицца 3',
-								description:
-									'Вкусная пицца с анасами и майонезом провансаль',
-								price: 500,
-								imgUrl: 'https://будем-жарить.рф/upload/iblock/9a0/lw8r56xqa2dylwq2qv2sjcvnequ5fyaf.png',
-							},
-						]"
-					/>
-					<ProductGroupList
-						title="Пиццы вкусные"
-						:id="2"
-						:products="[
-							{
-								id: 1,
-								name: 'Пицца 1',
-								description:
-									'Вкусная пицца с анасами и майонезом провансаль',
-								price: 500,
-								imgUrl: 'https://будем-жарить.рф/upload/iblock/9a0/lw8r56xqa2dylwq2qv2sjcvnequ5fyaf.png',
-							},
-							{
-								id: 2,
-								name: 'Пицца 2',
-								description:
-									'Вкусная пицца с анасами и майонезом провансаль',
-								price: 500,
-								imgUrl: 'https://будем-жарить.рф/upload/iblock/9a0/lw8r56xqa2dylwq2qv2sjcvnequ5fyaf.png',
-							},
-							{
-								id: 3,
-								name: 'Пицца 3',
-								description:
-									'Вкусная пицца с анасами и майонезом провансаль',
-								price: 500,
-								imgUrl: 'https://будем-жарить.рф/upload/iblock/9a0/lw8r56xqa2dylwq2qv2sjcvnequ5fyaf.png',
-							},
-						]"
+						v-for="category in data"
+						:key="category.id"
+						:category="category"
 					/>
 				</div>
 			</div>

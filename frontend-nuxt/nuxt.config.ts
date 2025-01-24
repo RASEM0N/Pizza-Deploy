@@ -1,6 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+	ssr: true,
 	compatibilityDate: '2025-01-21',
+	runtimeConfig: {
+		public: {
+			// @TODO http://localhost:5000
+			baseUrl: 'http://localhost:5000',
+		},
+	},
 	app: {
 		head: {
 			title: 'Pizza',
@@ -16,6 +23,9 @@ export default defineNuxtConfig({
 			],
 		},
 	},
+
+	// @TODO https://nuxt.com/docs/api/nuxt-config
+	alias: {},
 	devtools: {
 		enabled: false,
 	},
@@ -94,6 +104,6 @@ export default defineNuxtConfig({
 		},
 	},
 	lucide: {
-		namePrefix: 'Icon'
-	}
+		namePrefix: 'Icon',
+	},
 });

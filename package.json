@@ -4,6 +4,7 @@
   "license": "ISC",
   "scripts": {
     "dev:back": "npm run start:dev --prefix ./backend",
+    "dev:back:db": "npm run prisma:studio --prefix ./backend",
     "dev:back:debug": "npm run start:debug --prefix ./backend",
     "dev:front:nuxt": "npm run dev --prefix ./frontend-nuxt",
     "dev:front:next": "npm run dev --prefix ./frontend-nextjs",

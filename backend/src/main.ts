@@ -9,13 +9,31 @@ async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
 
 	app.setGlobalPrefix('api');
-	app.useGlobalPipes(new ValidationPipe());
+	app.useGlobalPipes(
+		new ValidationPipe({
+			transform: true,
+			transformOptions: {
+				enableImplicitConversion: true,
+			},
+		}),
+	);
 
 	// https://docs.nestjs.com/techniques/cookies#use-with-express-default
 	app.use(cookieParser());
 
 	// https://github.com/expressjs/morgan
 	app.use(morgan('dev'));
+
+	// @TODO надо настривать
+	app.enableCors({
+		// origin: [
+		// 	'http://localhost:3000',
+		// ],
+
+		// пока что оставил для всех
+		origin: true,
+		methods: ['GET', 'POST'],
+	});
 
 	// https://docs.nestjs.com/openapi/introduction
 	SwaggerModule.setup('api/docs', app, () =>

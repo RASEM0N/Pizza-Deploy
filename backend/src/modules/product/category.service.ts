@@ -24,28 +24,34 @@ export class CategoryService {
 			include: {
 				products: {
 					orderBy: { id: sortBy },
+
+					// @TODO
+					// price: { gte: priceTo, lte: priceFrom },
 					where: {
-						ingredients: ingredients
-							? {
-									some: {
-										id: {
-											in: ingredients,
-										},
-									},
-								}
-							: undefined,
-						items: {
-							some: {
-								size: { in: sizes },
-								pizzaType: { in: pizzaTypes },
-								price: { gte: priceFrom, lte: priceTo },
-							},
-						},
+						// ingredients: ingredients
+						// 	? {
+						// 			some: {
+						// 				id: {
+						// 					in: ingredients,
+						// 				},
+						// 			},
+						// 		}
+						// 	: undefined,
+						// items: {
+						// 	some: {
+						// 		size: { in: sizes },
+						// 		pizzaType: { in: pizzaTypes },
+						//
+						//
+						// 	},
+						// },
 					},
 					include: {
 						ingredients: true,
 						items: {
-							where: { price: { gte: priceFrom, lte: priceTo } },
+
+							// @TODO
+							// where: { price: { gte: priceTo, lte: priceFrom } },
 							orderBy: { price: 'asc' },
 						},
 					},
