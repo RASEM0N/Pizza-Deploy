@@ -6,10 +6,13 @@ import { Product } from '@prisma/client';
 export class ProductService {
 	constructor(private readonly prisma: PrismaService) {}
 
-	get(query: string): Promise<Product[]> {
-		return this.prisma.product.findMany({
-			where: { name: { contains: query, mode: 'insensitive' } },
-			take: 5,
+	get(id: number): Promise<Product> {
+		return this.prisma.product.findFirstOrThrow({
+			where: { id },
+			include: {
+				items: true,
+				ingredients: true,
+			},
 		});
 	}
 }
