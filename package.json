@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "ISC",
   "scripts": {
-    "dev:back": "npm run start:dev --prefix ./backend",
+    "dev:back": "npm run start:debug --prefix ./backend",
     "dev:front:nuxt": "npm run dev --prefix ./frontend-nuxt",
     "dev:front:next": "npm run dev --prefix ./frontend-nextjs",
     "prettier": "npm run prettier:back && npm run prettier:front:nuxt && npm run prettier:front:next",
