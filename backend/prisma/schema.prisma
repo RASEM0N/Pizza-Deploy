@@ -1,5 +1,6 @@
 // https://www.prisma.io/docs/orm/prisma-schema/overview
 // https://my-js.org/docs/guide/prisma
+// https://docs.nestjs.com/recipes/prisma
 
 generator client {
   provider = "prisma-client-js"
