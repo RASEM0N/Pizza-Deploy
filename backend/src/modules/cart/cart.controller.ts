@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Response } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Cart } from '@prisma/client';
 import { CartService } from './cart.service';
@@ -19,11 +19,11 @@ export class CartController {
 
 	@Post()
 	async create(
-		@Cookie({ name: 'cart-token', canEmpty: true }) token: string,
+		@Cookie({ name: 'cart-token', canEmpty: true }) cartToken: string,
 		@Response response: ExpResponse,
 		@Body() dto: CreateCartDto,
 	): Promise<Cart> {
-		const { cart, token } = await this.cartService.create(dto, token);
+		const { cart, token } = await this.cartService.create(dto, cartToken);
 		response.cookie('cart-token', token);
 		return cart;
 	}

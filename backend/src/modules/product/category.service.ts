@@ -3,6 +3,7 @@ import { PrismaService } from '@/shared/prisma';
 import { SearchCategoriesDto } from './dto/search.dto';
 import { Category } from '@prisma/client';
 
+// @todo не на своем месте находится
 @Injectable()
 export class CategoryService {
 	constructor(private readonly prisma: PrismaService) {}
@@ -22,12 +23,7 @@ export class CategoryService {
 			},
 			include: {
 				products: {
-					ingredients: true,
 					orderBy: { id: sortBy },
-					items: {
-						where: { price: { gte: priceFrom, lte: priceTo } },
-						orderBy: { price: 'asc' },
-					},
 					where: {
 						ingredients: ingredients
 							? {
@@ -44,6 +40,13 @@ export class CategoryService {
 								pizzaType: { in: pizzaTypes },
 								price: { gte: priceFrom, lte: priceTo },
 							},
+						},
+					},
+					include: {
+						ingredients: true,
+						items: {
+							where: { price: { gte: priceFrom, lte: priceTo } },
+							orderBy: { price: 'asc' },
 						},
 					},
 				},

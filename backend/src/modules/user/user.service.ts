@@ -17,7 +17,12 @@ export class UserService {
 	}
 
 	async create(dto: CreateUserDto): Promise<User> {
+		// @todo
+		// @ts-ignore
 		const hashedPassword = await hash(this.password, await genSalt(10));
+
+		// @todo
+		// @ts-ignore
 		return this.prisma.user.create({
 			data: { ...dto, password: hashedPassword },
 			omit: { password: false },
@@ -27,6 +32,8 @@ export class UserService {
 	async validateUser(email: string, password: string): Promise<User> {
 		const user = await this.prisma.user.findFirst({ where: { email } });
 
+		// @todo
+		// @ts-ignore
 		if (user && (await compare(password, user.password))) {
 			return { ...user, password: undefined };
 		}

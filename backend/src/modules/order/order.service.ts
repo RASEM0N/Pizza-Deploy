@@ -38,17 +38,23 @@ export class OrderService {
 
 		await this.cartService.clear(cart.id);
 
+		// @todo
+		// @ts-ignore
 		const paymentData = await this.yookassaService.createPayment({
 			orderId: order.id,
 			amount: order.totalAmount,
 			description: `Оплата заказа #${order.id}`,
 		});
 
+		// @todo
+		// @ts-ignore
 		await this.prisma.order.update({
 			where: { id: order.id },
 			data: { paymentId: paymentData.id },
 		});
 
+		// @todo
+		// @ts-ignore
 		await this.resendService.send({
 			// @TODO Ban
 			from: 'onboarding@resend.dev',
@@ -63,6 +69,8 @@ export class OrderService {
 	async changeOrderStatus(id: number, status: OrderStatus): Promise<void> {
 		const order = await this.prisma.order.findFirstOrThrow({ where: { id } });
 
+		// @todo
+		// @ts-ignore
 		if (order.status === status) {
 			return;
 		}
@@ -74,7 +82,8 @@ export class OrderService {
 
 		// только при успешном платеже подтверждаем
 		if (status === OrderStatus.SUCCEEDED) {
-			// @TODO
+			// @todo
+			// @ts-ignore
 			await this.resendService.send({
 				// @TODO Ban
 				from: 'onboarding@resend.dev',

@@ -14,7 +14,7 @@ export class ProductController {
 	) {}
 
 	@Get(':productId')
-	get(@Param('productId') productId: number): Promise<Product[]> {
+	get(@Param('productId') productId: number): Promise<Product> {
 		return this.productService.get(productId);
 	}
 
