@@ -5,6 +5,7 @@ import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create.dto';
 import { UpdateCartDto } from './dto/update.dto';
 import { Cookie } from '@/shared/cookie';
+import { Response as ExpResponse } from 'express';
 
 @ApiTags('Cart')
 @Controller('cart')
@@ -17,11 +18,14 @@ export class CartController {
 	}
 
 	@Post()
-	create(
-		@Cookie('cart-token') token: string,
+	async create(
+		@Cookie({ name: 'cart-token', canEmpty: true }) token: string,
+		@Response response: ExpResponse,
 		@Body() dto: CreateCartDto,
 	): Promise<Cart> {
-		return this.cartService.create(dto, token);
+		const { cart, token } = await this.cartService.create(dto, token);
+		response.cookie('cart-token', token);
+		return cart;
 	}
 
 	@Delete(':cartItemId')

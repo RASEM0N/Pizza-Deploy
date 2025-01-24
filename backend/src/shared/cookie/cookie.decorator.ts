@@ -1,11 +1,20 @@
-import { BadRequestException, createParamDecorator, ExecutionContext } from '@nestjs/common';
+import {
+	BadRequestException,
+	createParamDecorator,
+	ExecutionContext,
+} from '@nestjs/common';
 import { Request } from 'express';
 
-export const Cookie = createParamDecorator((data: string, ctx: ExecutionContext) => {
-	const value = ctx.switchToHttp().getRequest<Request>().cookies[data];
+type Data = string | { name: string; canEmpty?: boolean };
 
-	if (!value) {
-		throw new BadRequestException(`${data} cookie is empty`)
+export const Cookie = createParamDecorator((data: Data, ctx: ExecutionContext) => {
+	const name = typeof data === 'string' ? data : data.name;
+	const canEmpty = typeof data === 'string' ? false : (data.canEmpty ?? false);
+
+	const value = ctx.switchToHttp().getRequest<Request>().cookies[name];
+
+	if (!value && !canEmpty) {
+		throw new BadRequestException(`${data} cookie is empty`);
 	}
 
 	return value;

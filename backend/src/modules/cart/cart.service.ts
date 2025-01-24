@@ -26,13 +26,16 @@ export class CartService {
 		});
 	}
 
-	async create(dto: CreateCartDto, token: string = uuidv4()): Promise<Cart> {
+	async create(
+		dto: CreateCartDto,
+		token: string = uuidv4(),
+	): Promise<{ cart: Cart; token: string }> {
 		const cart = await this.createOrGet(token);
 
 		await this.createOrUpdateItem(cart.id, dto);
 		await this._actualizeTotalAmount(cart);
 
-		return cart;
+		return { cart, token };
 	}
 
 	async update(token: string, cartItemId: number, dto: UpdateCartDto): Promise<Cart> {
@@ -65,6 +68,9 @@ export class CartService {
 		});
 
 		if (cartItem) {
+
+			// @TODO
+			// @ts-ignore
 			return this.prisma.cartItem.update({
 				where: { id: cartItem.id },
 				data: { quantity: cartItem.quantity + 1 },
