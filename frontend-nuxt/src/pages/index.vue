@@ -8,9 +8,9 @@ import { useApiFetch } from '~/src/shared/api';
 // сюда еще body на основе текущего query надо передавать
 
 const { data, error } = await useApiFetch<Models.Category[]>('/api/product', {
-	query: {
 
-	}
+	// @TODO
+	query: {},
 });
 const { t } = useI18n();
 </script>
@@ -46,4 +46,7 @@ const { t } = useI18n();
 			</div>
 		</div>
 	</UiContainer>
+
+	<!--место под модалку. надо бы suspense бы еще туды-->
+	<NuxtPage />
 </template>
