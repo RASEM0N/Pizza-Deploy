@@ -6,6 +6,13 @@ declare namespace Models {
 		updatedAt: number;
 	}
 
+	// @TODO объекты с двухстороней связью
+	// не всегда запрашиваются, так что отдельные типы нужны для них
+
+	// @TODO Надо нормально оформить
+	type PizzaSize = 20 | 30 | 40;
+	type PizzaType = 1 | 2;
+
 	// @TODO enum plz
 	type OrderStatus = 'PENDING' | 'SUCCESS' | 'CANCELLED';
 	type UserRole = 'USER' | 'ADMIN';
@@ -28,6 +35,9 @@ declare namespace Models {
 		size: number;
 		pizzaType: number;
 		cartItem: CartItem[];
+
+		// @TODO в одном регистре всегда
+		Product: Product;
 		productId: number;
 	}
 
@@ -36,7 +46,12 @@ declare namespace Models {
 		price: number;
 		imgUrl: string;
 
+		// @TODO в одном регистре всегда
+		Product: Product;
 		productId: number;
+
+		// @TODO в одном регистре всегда
+		Cart: Cart;
 		cartItemId: number;
 	}
 
@@ -51,7 +66,12 @@ declare namespace Models {
 		quantity: number;
 		ingredients: Ingredient[];
 
-		productItem: number;
+		// @TODO в одном регистре всегда
+		ProductItem: ProductItem;
+		productItemId: number;
+
+		// @TODO в одном регистре всегда
+		Cart: Cart;
 		cartId: number;
 	}
 

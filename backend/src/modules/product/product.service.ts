@@ -12,6 +12,15 @@ export class ProductService {
 			include: {
 				items: true,
 				ingredients: true,
+				Category: {
+					include: {
+						products: {
+							include: {
+								items: true,
+							},
+						},
+					},
+				},
 			},
 		});
 	}
