@@ -22,9 +22,12 @@ export class AuthService {
 		return { user, token };
 	}
 
+	// @todo -> UserController Post method
 	async register(dto: RegisterDto): Promise<User> {
 		const user = this.userService.create(dto);
 
+		// @TODO по идее это должно быть в другом месте
+		// в создание
 		await this.resendService.send({
 			// @TODO Ban
 			from: 'onboarding@resend.dev',

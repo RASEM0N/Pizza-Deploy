@@ -1,7 +1,8 @@
 import { UserEntity } from '../entity/user.entity';
 import { PickType } from '@nestjs/swagger';
 
-export class CreateUserDto extends PickType(UserEntity, [
+// @TODO по идее Partial Type должно быть
+export class UpdateUserDto extends PickType(UserEntity, [
 	'email',
 	'fullName',
 	'password',

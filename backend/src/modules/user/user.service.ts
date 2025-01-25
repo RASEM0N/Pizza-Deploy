@@ -1,12 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { UpdateUserDto } from './dto/update.dto';
 import { CreateUserDto } from './dto/create.dto';
 import { User } from '@prisma/client';
 import { hash, genSalt, compare } from 'bcrypt';
 import { PrismaService } from '@/shared/prisma';
+import { ResendService } from 'nestjs-resend';
 
 @Injectable()
 export class UserService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly resendService: ResendService,
+	) {}
 
 	get(id: number): Promise<User> {
 		return this.prisma.user.findFirst({ where: { id }, omit: { password: false } });
@@ -19,7 +24,7 @@ export class UserService {
 	async create(dto: CreateUserDto): Promise<User> {
 		// @todo
 		// @ts-ignore
-		const hashedPassword = await hash(this.password, await genSalt(10));
+		const hashedPassword = await this._encryptPassword(dto.password);
 
 		// @todo
 		// @ts-ignore
@@ -27,6 +32,32 @@ export class UserService {
 			data: { ...dto, password: hashedPassword },
 			omit: { password: false },
 		});
+	}
+
+	async update(id: number, dto: UpdateUserDto): Promise<User> {
+		const user = await this.prisma.user.findFirstOrThrow({ where: { id } });
+		const data = { fullName: dto.fullName, email: dto.email };
+
+		// @TODO также засолить пароль надо
+		if (dto.password) {
+			data.password = await this._encryptPassword(dto.password);
+		}
+
+		const updatedUser = await this.prisma.user.update({ where: { id }, data });
+
+		if (user.email !== updatedUser.email) {
+			// @TODO если почта изменилась то должна отправлятся письмо на почту
+
+			// @TODO Ban
+			await this.resendService.send({
+				from: 'onboarding@resend.dev',
+				to: updatedUser.email,
+				subject: '',
+				html: '',
+			});
+		}
+
+		return updatedUser;
 	}
 
 	async validateUser(email: string, password: string): Promise<User> {
@@ -39,5 +70,9 @@ export class UserService {
 		}
 
 		throw new Error('Error validation');
+	}
+
+	private async _encryptPassword(password: string): Promise<string> {
+		return hash(password, await genSalt(10));
 	}
 }

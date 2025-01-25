@@ -1,4 +1,4 @@
-import { IsEmail, IsEnum, Length, IsString } from 'class-validator';
+import { IsEmail, IsEnum, Length, IsString, IsOptional } from 'class-validator';
 import { UserRole } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -19,6 +19,7 @@ export class UserEntity {
 	fullName: string;
 
 	@ApiProperty()
+	@IsOptional()
 	@IsEnum(UserRole)
-	role: UserRole;
+	role?: UserRole;
 }

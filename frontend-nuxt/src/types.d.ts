@@ -76,9 +76,9 @@ declare namespace Models {
 	}
 
 	interface User extends Common {
-		fullName: number;
-		email: number;
-		password: number;
+		fullName: string;
+		email: string;
+		password: string;
 		role: UserRole;
 		verified?: number;
 
