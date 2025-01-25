@@ -6,11 +6,11 @@ import { ProductForm } from '~/src/features/product-form';
 // @TODO обработка ошибок
 
 const route = useRoute();
-const { data } = await useApiFetch<Models.Product>('/api/product', {
-	params: { productId: route.params.productId },
-});
+const { data } = await useApiFetch<Models.Product>(
+	`/api/product/${route.params.productId}`,
+);
 
-if (!data) {
+if (!data.value) {
 	throw createError({ statusCode: 404, statusMessage: 'Product is empty' });
 }
 </script>

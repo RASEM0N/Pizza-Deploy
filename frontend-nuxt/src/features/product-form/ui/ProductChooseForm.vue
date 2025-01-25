@@ -1,54 +1,40 @@
 <script setup lang="ts">
 import ProductFormVariants from './ProductFormVariants.vue';
 
-
 // @TODO Локализация плиз
 
 interface Props {
 	product: Models.Product;
+	productItem: Models.ProductItem
 	loading: boolean;
 }
 
 interface Emits {
-	submit: [itemId: number, ingredients: number[]];
+	submit: [itemId: number];
 }
 
-const { product } = defineProps<Props>();
+const { product, productItem } = defineProps<Props>();
 const emits = defineEmits<Emits>();
 </script>
 <template>
 	<div class="flex flex-1">
+		<div class="flex items-center justify-center flex-1 relative w-full">
+			<NuxtImg
+				class="relative left-2 top-2 transition-all z-10 duration-300 w-[350px] h-[350px]"
+				:alt="product.name"
+				:src="product.imgUrl"
+			/>
+		</div>
 		<div class="w-[490px] bg-[#f7f6f5] p-7">
-			<UiTitle class="font-extrabold mb-1" size="md">
-				{{ product.name }}
-			</UiTitle>
+			<UiTitle class="font-extrabold mb-1" size="md">{{ product.name }}</UiTitle>
+
+			<UiButton
+				class="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
+				:loading="loading"
+				@click="emits('submit', productItem.id)"
+			>
+				Добавить в корзину за {{ productItem.price }} ₽
+			</UiButton>
 		</div>
-		<p class="text-gray-400">{{ textDetails }}</p>
-
-		<div class="flex flex-col gap-4 mt-5">
-			<ProductFormVariants
-				variants=""
-				value=""
-				@click-item=""
-			/>
-			<ProductFormVariants
-				variants=""
-				value=""
-				@click-item=""
-			/>
-		</div>
-
-		<div class="bg-gray-50 p-5 rounded-md h-[420px] overflow-auto scrollbar mt-5">
-			<div class="grid grid-cols-3 gap-3">
-
-			</div>
-		</div>
-
-		<UiButton class="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
-				  :loading="loading"
-				  @click="emits('submit', '...')"
-		>
-			Добавить в корзину за {{ totalPrice }} ₽
-		</UiButton>
 	</div>
 </template>

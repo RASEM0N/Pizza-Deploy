@@ -8,12 +8,12 @@ const { t } = useI18n();
 		<UiContainer class="flex items-center justify-between py-8">
 			<div class="flex items-center gap-4">
 				<NuxtImg src="/logo.svg" width="35" height="35" alt="logo" />
-				<div>
+				<NuxtLink to="/">
 					<h1 class="text-2xl uppercase font-black">Nuxt Pizza</h1>
 					<p class="text-sm text-gray-400 leading-3">
 						{{ t('header.subtitle') }}
 					</p>
-				</div>
+				</NuxtLink>
 			</div>
 			<div class="flex items-center gap-3">
 				<UiButton variant="outline">{{ t('header.login') }}</UiButton>

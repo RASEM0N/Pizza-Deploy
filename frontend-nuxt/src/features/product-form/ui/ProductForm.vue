@@ -9,15 +9,17 @@ interface Props {
 
 const { product } = defineProps<Props>();
 const emits = defineEmits(['submit']);
+const snackbar = useSnackbar();
 
 const productStore = useProductCart(product.id)();
-const firstItem = computed(() => product.items[0]);
+const firstItem = computed(() => product.items?.[0]);
 
-const onSubmit = async (itemId: number = firstItem.value.id, ingredients: number[]) => {
+const onSubmit = async (itemId: number, ingredients: number[] = []) => {
+	// @TODO при ошибке не упадет
 	await productStore.addCartItem(itemId, ingredients);
 
-	// @TODO показать тостер
-
+	// @TODO локализация
+	snackbar.add({ type: 'success', text: `${product.name} добавлен в корзину` });
 	emits('submit');
 };
 </script>
@@ -26,7 +28,13 @@ const onSubmit = async (itemId: number = firstItem.value.id, ingredients: number
 		v-if="firstItem?.pizzaType"
 		@submit="onSubmit"
 		:product="product"
-		:loading="false"
+		:loading="productStore.loading"
 	/>
-	<ProductChooseForm v-else @submit="onSubmit" :product="product" :loading="false" />
+	<ProductChooseForm
+		v-else
+		@submit="onSubmit"
+		:product="product"
+		:product-item="firstItem"
+		:loading="productStore.loading"
+	/>
 </template>

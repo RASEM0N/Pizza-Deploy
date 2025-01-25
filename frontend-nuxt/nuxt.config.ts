@@ -45,6 +45,7 @@ export default defineNuxtConfig({
 		'@vee-validate/nuxt',
 		'@vueuse/nuxt',
 		'shadcn-nuxt',
+		'nuxt-snackbar',
 		'nuxt-lucide-icons',
 	],
 	dir: {
@@ -105,5 +106,10 @@ export default defineNuxtConfig({
 	},
 	lucide: {
 		namePrefix: 'Icon',
+	},
+	snackbar: {
+		right: true,
+		top: true,
+		duration: 2000,
 	},
 });

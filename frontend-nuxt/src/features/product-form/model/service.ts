@@ -60,6 +60,9 @@ export const useProductCart = (productId: number) => {
 		state: (): State => ({ status: FetchStatus.none }),
 
 		getters: {
+			loading(state): boolean {
+				return state.status === FetchStatus.loading
+			},
 			totalAmount(state): number {
 				return state.cart?.totalAmount ?? 0;
 			},
