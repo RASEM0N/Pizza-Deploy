@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import type { CartDetailItem } from '~/src/features/product-form/model/service';
+import { mapPizzaType } from '~/src/features/product-form/lib';
 import {
-	CartItemPrice,
-	CartItemCountButton,
 	CartItemImage,
 	CartItemInfo,
+	CartItemCountButton,
+	CartItemPrice,
 } from '~/src/entities/cart';
-import { mapPizzaType } from '~/src/features/product-form/lib';
 
-// @TODO ЛОГИКА КОПИПАСТ КАК В CART DRAWER ITEM
+// @TODO ЛОГИКА КОПИПАСТ КАК В CHECKOUT ITEM
 
 const emits = defineEmits(['item.add', 'item.remove', 'remove']);
-const { item } = defineProps<{ item: CartDetailItem }>();
+const { item, disabled } = defineProps<{ item: CartDetailItem; disabled?: boolean }>();
 
 // @TODO КОПИПАСТ
 const getCartItemDetails = (
@@ -40,32 +40,35 @@ const description = computed(() =>
 <template>
 	<div
 		:class="[
-			'flex items-center justify-between',
+			'flex bg-white p-5 gap-6',
 			{
-				'opacity-50 pointer-events-none': item.disabled,
+				'opacity-50 pointer-events-none': disabled,
 			},
 		]"
 	>
-		<div class="flex items-center gap-5 flex-1">
-			<CartItemImage :src="item.imageUrl" :alt="item.name" />
+		<CartItemImage :src="item.imageUrl" :alt="item.name" />
+
+		<div class="flex-1">
 			<CartItemInfo :name="item.name" :description="description" />
-		</div>
 
-		<CartItemPrice :value="item.price" />
+			<hr class="my-3" />
 
-		<div class="flex items-center gap-5 ml-20">
-			<CartItemCountButton
-				@add="emits('item.add')"
-				@remove="emits('item.remove')"
-				:value="item.quantity"
-			/>
-
-			<button @click="emits('remove')">
-				<IconX
-					class="text-gray-400 cursor-pointer hover:text-gray-600"
-					:size="20"
+			<div class="flex items-center justify-between">
+				<CartItemCountButton
+					@add="emits('item.add')"
+					@remove="emits('item.remove')"
+					:value="item.quantity"
 				/>
-			</button>
+
+				<div class="flex items-center gap-3">
+					<CartItemPrice :value="item.price" />
+					<IconTrash2
+						@click="emits('remove')"
+						class="text-gray-400 cursor-pointer hover:text-gray-600"
+						:size="16"
+					/>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
