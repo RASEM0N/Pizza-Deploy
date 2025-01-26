@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const { data } = useFetch<Models.Story[]>('/api/story');
+import { useApiFetch } from '~/src/shared/api';
+
+const { data } = useApiFetch<Models.Story[]>('/api/story');
 
 const stories = computed(() => data.value ?? []);
 const emptyStories = computed(() => (stories.value ? [] : Array(6)));

@@ -2,6 +2,7 @@
 import { toTypedSchema } from '@vee-validate/zod';
 import { object, string } from 'zod';
 import { FormInput } from '~/src/shared/ui/form-input';
+import { useApiFetch } from '~/src/shared/api';
 
 interface Props {
 	user: Models.User;
@@ -10,10 +11,10 @@ interface Props {
 // @TODO локализация
 // @TODO локализация для ошибок
 
-const { data } = await useFetch<Models.User>('/api/auth/me');
+const { data } = await useApiFetch<Models.User>('/api/auth/me');
 
 if (!data.value) {
-	return navigateTo('/not-auth');
+	navigateTo('/not-auth');
 }
 
 const { user } = defineProps<Props>();
