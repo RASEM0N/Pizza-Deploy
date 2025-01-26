@@ -32,7 +32,7 @@ export const getCartDetailItems = (cart: Models.Cart): CartDetailItem[] => {
 	}));
 };
 
-interface CartDetailItem {
+export interface CartDetailItem {
 	id: number;
 	quantity: number;
 	name: string;

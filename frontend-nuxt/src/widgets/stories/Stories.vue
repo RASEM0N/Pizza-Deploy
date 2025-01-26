@@ -4,7 +4,7 @@ import { useApiFetch } from '~/src/shared/api';
 const { data } = useApiFetch<Models.Story[]>('/api/story');
 
 const stories = computed(() => data.value ?? []);
-const emptyStories = computed(() => (stories.value ? [] : Array(6)));
+const emptyStories = computed(() => (stories.value ? [] : Array.from(Array(6))));
 
 const selectedStory = ref<Models.Story | null>(null);
 const openStory = computed<boolean>(() => Boolean(selectedStory.value?.items.length));

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 interface Props {
 	label?: string;
 	required?: boolean;
@@ -26,11 +25,15 @@ const clear = () => {
 		</p>
 
 		<div class="relative">
-			<UiInput class="h-12 text-md" v-model="model" v-bind="$attrs" />
+			<textarea
+				class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+				v-model="model"
+				v-bind="$attrs"
+			/>
 			<button
+				class="absolute right-4 top-1/2 -translate-y-1/2 opacity-30 hover:opacity-100 cursor-pointer"
 				v-show="model"
 				@click="clear"
-				class="absolute right-4 top-1/2 -translate-y-1/2 opacity-30 hover:opacity-100 cursor-pointer"
 			>
 				<IconX class="h-5 w-5" />
 			</button>
