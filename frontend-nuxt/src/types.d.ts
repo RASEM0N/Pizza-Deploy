@@ -102,7 +102,6 @@ declare namespace Models {
 		phone: string;
 		address: string;
 		comment?: string;
-
 		userId: number;
 	}
 
