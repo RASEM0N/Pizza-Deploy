@@ -33,7 +33,7 @@ const itemsForShow = computed(() => (showAll.value ? items : items.slice(0, limi
 		<div v-if="showAll" class="mb-5">
 			<UiInput
 				:placeholder="t('product_filter.group.search')"
-				className="bg-gray-50 border-none"
+				class="bg-gray-50 border-none"
 			/>
 		</div>
 

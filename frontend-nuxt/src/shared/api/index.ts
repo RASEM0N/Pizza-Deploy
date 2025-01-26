@@ -1,3 +1,5 @@
+// @TODO тоже самое для $fetch
+
 export const useApiFetch = <T>(...[url, options]: Parameters<typeof useFetch<T>>) => {
 	const config = useRuntimeConfig();
 

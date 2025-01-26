@@ -8,7 +8,7 @@ import Stories from '~/src/widgets/stories/Stories';
 // @TODO проверить что загружается на бэке
 // сюда еще body на основе текущего query надо передавать
 
-const { data } = await useApiFetch<Models.Category[]>('/api/product', {
+const { data } = await useApiFetch<Models.Category[]>('/api/category', {
 	// @TODO
 	query: {},
 });

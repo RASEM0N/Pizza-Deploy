@@ -24,4 +24,16 @@ export class ProductService {
 			},
 		});
 	}
+
+	getAllByQuery(query: string): Promise<Product[]> {
+		return this.prisma.product.findMany({
+			take: 5,
+			where: {
+				name: {
+					contains: query,
+					mode: 'insensitive',
+				},
+			},
+		});
+	}
 }

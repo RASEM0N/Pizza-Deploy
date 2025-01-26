@@ -6,20 +6,25 @@ import { CategoryService } from './category.service';
 import { SearchCategoriesDto } from './dto/search.dto';
 
 @ApiTags('Product')
-@Controller('product')
+@Controller()
 export class ProductController {
 	constructor(
 		private readonly productService: ProductService,
 		private readonly categoryService: CategoryService,
 	) {}
 
-	@Get(':productId')
-	get(@Param('productId', ParseIntPipe) productId: number): Promise<Product> {
+	@Get('/product/:productId')
+	getById(@Param('productId', ParseIntPipe) productId: number): Promise<Product> {
 		return this.productService.get(productId);
 	}
 
+	@Get('/product')
+	get(@Query('query') query: string): Promise<Product[]> {
+		return this.productService.getAllByQuery(query);
+	}
+
 	// @todo пока что сюда приземлил
-	@Get()
+	@Get('/category')
 	search(@Query() dto: SearchCategoriesDto): Promise<Category[]> {
 		return this.categoryService.search(dto);
 	}

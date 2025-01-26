@@ -40,7 +40,7 @@ export class UserService {
 
 		// @TODO также засолить пароль надо
 		if (dto.password) {
-			data.password = await this._encryptPassword(dto.password);
+			// data.password = await this._encryptPassword(dto.password);
 		}
 
 		const updatedUser = await this.prisma.user.update({ where: { id }, data });

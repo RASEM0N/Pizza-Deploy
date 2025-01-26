@@ -40,7 +40,7 @@ const price = ref([0, 30000]);
 		</div>
 
 		<ProductFilterCheckboxGroup
-			className="mt-5"
+			class="mt-5"
 			title="Формат"
 			:limit="6"
 			:items="[

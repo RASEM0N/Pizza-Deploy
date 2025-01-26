@@ -21,9 +21,9 @@ const description = computed(() => product.ingredients.map((v) => v.name).join('
 					alt="Logo"
 				/>
 			</div>
-			<Title size="sm" className="mb-1 mt-3 font-bold">
+			<UiTitle size="sm" class="mb-1 mt-3 font-bold">
 				{{ product.name }}
-			</Title>
+			</UiTitle>
 			<p class="text-sm text-gray-400 flex-1">
 				{{ description }}
 			</p>

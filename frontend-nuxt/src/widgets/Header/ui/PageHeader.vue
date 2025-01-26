@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { cn } from '~/src/shared/lib/cls';
 import AuthModal from '~/src/widgets/auth-modal/AuthModal.vue';
+import SearchProducts from '~/src/widgets/search-products/SearchProducts.vue';
+
+const { hasCart = true, hasSearch = true } = defineProps<{
+	hasSearch?: boolean;
+	hasCart?: boolean;
+}>();
 
 const isOpenAuth = ref(false);
-
 const { t } = useI18n();
 </script>
 <template>
@@ -18,15 +23,20 @@ const { t } = useI18n();
 					</p>
 				</NuxtLink>
 			</div>
-			<div class="flex items-center gap-3">
+
+			<div v-if="hasSearch" class="mx-10 flex-1">
+				<SearchProducts />
+			</div>
+
+			<div v-if="hasCart" class="flex items-center gap-3">
 				<AuthModal v-model="isOpenAuth" />
 
 				<!--@todo должно быть подцеплено к состоянию авторизации-->
-				<UiButton @click="isOpenAuth = true" variant="outline">{{
-					t('header.login')
-				}}</UiButton>
+				<UiButton @click="isOpenAuth = true" variant="outline"
+					>{{ t('header.login') }}
+				</UiButton>
 
-				<!--@TODO в компоненту -->
+				<!--@TODO в компоненту c состаянием из которым есть доступ извне -->
 				<div>
 					<UiButton class="group relative">
 						<b>520 ₽</b>
