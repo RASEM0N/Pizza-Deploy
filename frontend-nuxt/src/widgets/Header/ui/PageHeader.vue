@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { cn } from '~/src/shared/lib/cls';
 import AuthModal from '~/src/widgets/auth-modal/AuthModal.vue';
 import SearchProducts from '~/src/widgets/search-products/SearchProducts.vue';
 
@@ -9,7 +8,7 @@ const isOpenAuth = ref(false);
 const { t } = useI18n();
 </script>
 <template>
-	<header :class="cn('border-b border-gray-100')">
+	<header class="border-b border-gray-100">
 		<UiContainer class="flex items-center justify-between py-8">
 			<div class="flex items-center gap-4">
 				<NuxtImg src="/logo.svg" width="35" height="35" alt="logo" />
