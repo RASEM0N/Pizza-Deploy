@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AuthModal from '~/src/widgets/auth-modal/AuthModal.vue';
 import SearchProducts from '~/src/widgets/search-products/SearchProducts.vue';
-import CartDrawer from '~/src/features/cart-drawer/ui/CartDrawer';
+import CartButton from '~/src/features/cart-drawer/ui/CartButton.vue';
 
 defineProps<{ hasSearch?: boolean; hasCart?: boolean }>();
 
@@ -33,7 +33,7 @@ const { t } = useI18n();
 					>{{ t('header.login') }}
 				</UiButton>
 
-				<CartDrawer />
+				<CartButton />
 			</div>
 		</UiContainer>
 	</header>
