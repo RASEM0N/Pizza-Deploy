@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { cn } from '~/src/shared/lib/cls';
+import AuthModal from '~/src/widgets/auth-modal/AuthModal.vue';
+
+const isOpenAuth = ref(false);
 
 const { t } = useI18n();
 </script>
@@ -16,7 +19,14 @@ const { t } = useI18n();
 				</NuxtLink>
 			</div>
 			<div class="flex items-center gap-3">
-				<UiButton variant="outline">{{ t('header.login') }}</UiButton>
+				<AuthModal v-model="isOpenAuth" />
+
+				<!--@todo должно быть подцеплено к состоянию авторизации-->
+				<UiButton @click="isOpenAuth = true" variant="outline">{{
+					t('header.login')
+				}}</UiButton>
+
+				<!--@TODO в компоненту -->
 				<div>
 					<UiButton class="group relative">
 						<b>520 ₽</b>
