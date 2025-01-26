@@ -3,19 +3,18 @@ import { Categories } from '~/src/entities/category';
 import { ProductFilter } from '~/src/features/product-filter';
 import { ProductGroupList } from '~/src/entities/product';
 import { useApiFetch } from '~/src/shared/api';
+import Stories from '~/src/widgets/stories/Stories';
 
 // @TODO проверить что загружается на бэке
 // сюда еще body на основе текущего query надо передавать
 
-const { data, error } = await useApiFetch<Models.Category[]>('/api/product', {
-
+const { data } = await useApiFetch<Models.Category[]>('/api/product', {
 	// @TODO
 	query: {},
 });
 const { t } = useI18n();
 </script>
 <template>
-	<h1>{{ error }}</h1>
 	<UiContainer class="mt-5">
 		<UiTitle size="lg" class="font-extrabold">
 			{{ t('pages.home.title') }}
@@ -28,6 +27,8 @@ const { t } = useI18n();
 			<UiSortPopup />
 		</UiContainer>
 	</div>
+
+	<Stories />
 
 	<UiContainer class="mt-10 pb-14">
 		<div class="flex gap-[80px]">
