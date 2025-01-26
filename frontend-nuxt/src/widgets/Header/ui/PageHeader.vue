@@ -3,10 +3,7 @@ import { cn } from '~/src/shared/lib/cls';
 import AuthModal from '~/src/widgets/auth-modal/AuthModal.vue';
 import SearchProducts from '~/src/widgets/search-products/SearchProducts.vue';
 
-const { hasCart = true, hasSearch = true } = defineProps<{
-	hasSearch?: boolean;
-	hasCart?: boolean;
-}>();
+defineProps<{ hasSearch?: boolean; hasCart?: boolean }>();
 
 const isOpenAuth = ref(false);
 const { t } = useI18n();

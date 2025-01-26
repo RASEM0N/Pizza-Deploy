@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { PageHeader } from '~/src/widgets/Header';
 
+const { hasCart = true, hasSearch = true } = defineProps<{
+	hasCart?: boolean;
+	hasSearch?: boolean;
+}>();
+
 const i18nHead = useLocaleHead();
 
 // https://i18n.nuxtjs.org/docs/composables/use-locale-head
@@ -16,7 +21,7 @@ useHead(() => ({
 </script>
 <template>
 	<main class="min-h-screen bg-white rounded-3xl">
-		<PageHeader />
+		<PageHeader :has-cart="hasCart" :has-search="hasSearch" />
 		<slot></slot>
 	</main>
 </template>

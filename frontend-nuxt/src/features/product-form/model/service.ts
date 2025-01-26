@@ -54,84 +54,84 @@ interface State {
 // @TODO вынести в API
 // + надо дефолтный api сделать baseURL
 // @TODO в entities cart
-export const useProductCart = (productId: number) => {
-	return defineStore(`productCart-${productId}`, {
-		// @TODO для каждого метода свой status-а
-		state: (): State => ({ status: FetchStatus.none }),
 
-		getters: {
-			loading(state): boolean {
-				return state.status === FetchStatus.loading
-			},
-			totalAmount(state): number {
-				return state.cart?.totalAmount ?? 0;
-			},
-			detailItems(state): CartDetailItem[] {
-				return state.cart ? getCartDetailItems(state.cart) : [];
-			},
+// @TODO переработать, cart-очка то одна у нас всегда
+export const useProductCart = defineStore(`cart`, {
+	// @TODO для каждого метода свой status-а
+	state: (): State => ({ status: FetchStatus.none }),
+
+	getters: {
+		loading(state): boolean {
+			return state.status === FetchStatus.loading;
+		},
+		totalAmount(state): number {
+			return state.cart?.totalAmount ?? 0;
+		},
+		detailItems(state): CartDetailItem[] {
+			return state.cart ? getCartDetailItems(state.cart) : [];
+		},
+	},
+
+	actions: {
+		async getCart() {
+			try {
+				this.status = FetchStatus.loading;
+				const data = await $fetch<Models.Cart>(`/api/cart`);
+				this.status = FetchStatus.loaded;
+				this.cart = data;
+			} catch (e) {
+				this.status = FetchStatus.error;
+			}
 		},
 
-		actions: {
-			async getCart() {
-				try {
-					this.status = FetchStatus.loading;
-					const data = await $fetch<Models.Cart>(`/api/cart`);
-					this.status = FetchStatus.loaded;
-					this.cart = data;
-				} catch (e) {
-					this.status = FetchStatus.error;
-				}
-			},
+		async updateCartItem(itemId: number, quantity: number) {
+			try {
+				this.status = FetchStatus.loading;
 
-			async updateCartItem(itemId: number, quantity: number) {
-				try {
-					this.status = FetchStatus.loading;
+				const data = await $fetch<Models.Cart>(`/api/cart/${itemId}`, {
+					method: 'PUT',
+					body: { quantity },
+				});
 
-					const data = await $fetch<Models.Cart>(`/api/cart/${itemId}`, {
-						method: 'PUT',
-						body: { quantity },
-					});
-
-					this.status = FetchStatus.loaded;
-					this.cart = data;
-				} catch (e) {
-					this.status = FetchStatus.error;
-				}
-			},
-
-			async removeCartItem(itemId: number) {
-				try {
-					this.status = FetchStatus.loading;
-
-					const data = await $fetch<Models.Cart>(`/api/cart/${itemId}`, {
-						method: 'DELETE',
-					});
-
-					this.status = FetchStatus.loaded;
-					this.cart = data;
-				} catch (e) {
-					this.status = FetchStatus.error;
-				}
-			},
-
-			async addCartItem(itemId: number, ingredients?: number[]) {
-				try {
-					this.status = FetchStatus.loading;
-
-					const data = await $fetch<Models.Cart>(`/api/cart`, {
-						method: 'POST',
-						body: {
-							itemId,
-							ingredients,
-						},
-					});
-
-					this.status = FetchStatus.loaded;
-					this.cart = data;
-				} catch (e) {
-					this.status = FetchStatus.error;
-				}
-			},
+				this.status = FetchStatus.loaded;
+				this.cart = data;
+			} catch (e) {
+				this.status = FetchStatus.error;
+			}
 		},
-	});
-};
+
+		async removeCartItem(itemId: number) {
+			try {
+				this.status = FetchStatus.loading;
+
+				const data = await $fetch<Models.Cart>(`/api/cart/${itemId}`, {
+					method: 'DELETE',
+				});
+
+				this.status = FetchStatus.loaded;
+				this.cart = data;
+			} catch (e) {
+				this.status = FetchStatus.error;
+			}
+		},
+
+		async addCartItem(itemId: number, ingredients?: number[]) {
+			try {
+				this.status = FetchStatus.loading;
+
+				const data = await $fetch<Models.Cart>(`/api/cart`, {
+					method: 'POST',
+					body: {
+						itemId,
+						ingredients,
+					},
+				});
+
+				this.status = FetchStatus.loaded;
+				this.cart = data;
+			} catch (e) {
+				this.status = FetchStatus.error;
+			}
+		},
+	},
+});

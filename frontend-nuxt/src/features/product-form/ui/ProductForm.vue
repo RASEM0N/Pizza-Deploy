@@ -11,7 +11,7 @@ const { product } = defineProps<Props>();
 const emits = defineEmits(['submit']);
 const snackbar = useSnackbar();
 
-const productStore = useProductCart(product.id)();
+const productStore = useProductCart();
 const firstItem = computed(() => product.items?.[0]);
 
 const onSubmit = async (itemId: number, ingredients: number[] = []) => {
