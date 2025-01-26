@@ -10,6 +10,12 @@ interface Props {
 // @TODO локализация
 // @TODO локализация для ошибок
 
+const { data } = await useFetch<Models.User>('/api/auth/me');
+
+if (!data.value) {
+	return navigateTo('/not-auth');
+}
+
 const { user } = defineProps<Props>();
 
 const { defineField, handleSubmit } = useForm({
