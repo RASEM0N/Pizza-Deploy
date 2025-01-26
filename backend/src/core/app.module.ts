@@ -11,6 +11,7 @@ import { UserModule } from '@/modules/user/user.module';
 import { IngredientModule } from '@/modules/ingredient/ingredient.module';
 import * as Joi from 'joi';
 import { YookassaModule } from '@/shared/yookassa';
+import { OrderModule } from '@/modules/order/order.module';
 
 @Module({
 	imports: [
@@ -21,6 +22,7 @@ import { YookassaModule } from '@/shared/yookassa';
 		ProductModule,
 		StoryModule,
 		UserModule,
+		OrderModule,
 		// --- ------- ---
 
 		PrismaModule,
