@@ -12,12 +12,12 @@ export const mapPizzaType: { [key in Models.PizzaType]: string } = {
 
 export const pizzaSizes = Object.entries(mapPizzaSize).map(([value, name]) => ({
 	name,
-	value,
+	value: Number(value),
 }));
 
 export const pizzaTypes = Object.entries(mapPizzaType).map(([value, name]) => ({
 	name,
-	value,
+	value: Number(value),
 }));
 
 export const calcTotalPizzaPrice = (
@@ -59,9 +59,10 @@ export const getPizzaDetails = (
 	return { totalPrice, textDetails };
 };
 
+// @TODO
 export type Variant = {
 	name: string;
-	value: string;
+	value: string | number;
 	disabled?: boolean;
 };
 
@@ -75,7 +76,7 @@ export const getAvailablePizzaSizes = (
 		name: item.name,
 		value: item.value,
 		disabled: !filteredPizzasByType.some(
-			(pizza) => Number(pizza.size) === Number(item.value),
+			(pizza) => pizza.size === Number(item.value),
 		),
 	}));
 };

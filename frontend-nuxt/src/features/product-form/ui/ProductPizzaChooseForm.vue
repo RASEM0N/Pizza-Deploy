@@ -36,12 +36,12 @@ const details = computed(() =>
 	),
 );
 
-const selectSize = (value: string) => {
-	size.value = Number(value) as Models.PizzaSize;
+const selectSize = (value: number) => {
+	size.value = value as Models.PizzaSize;
 };
 
-const selectType = (value: string) => {
-	type.value = Number(value) as Models.PizzaType;
+const selectType = (value: number) => {
+	type.value = value as Models.PizzaType;
 };
 
 const submit = () => {

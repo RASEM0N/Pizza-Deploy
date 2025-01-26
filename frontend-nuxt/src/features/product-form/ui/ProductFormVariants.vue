@@ -1,9 +1,5 @@
 <script setup lang="ts">
-interface Variant {
-	name: string;
-	value: string;
-	disabled?: boolean;
-}
+import type { Variant } from '~/src/features/product-form/lib';
 
 interface Props {
 	variants: Variant[];
@@ -11,17 +7,17 @@ interface Props {
 }
 
 interface Emits {
-	'select': [value: string];
+	select: [value: Variant['value']];
 }
 
-const { variants, value } = defineProps<Props>();
-const emits = defineEmits<Emits>();
+defineProps<Props>();
+defineEmits<Emits>();
 </script>
 <template>
 	<div class="flex justify-between bg-[#F3F3F7] rounded-3xl p-1 select-none">
 		<button
 			v-for="variant in variants"
-			@click="emits('select', variant.value)"
+			@click="$emit('select', variant.value)"
 			:key="variant.name"
 			:class="[
 				'flex items-center justify-center cursor-pointer h-[30px] px-5 flex-1',
