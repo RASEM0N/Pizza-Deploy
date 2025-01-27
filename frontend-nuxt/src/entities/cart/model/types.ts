@@ -2,7 +2,7 @@ import type { Common } from '~/src/shared/lib/types';
 import type {
 	IProductIngredient,
 	IProductItem,
-} from '~/src/entities/refactor/product/@x';
+} from '~/src/entities/product/@x';
 
 export interface Cart extends Common {
 	token: string;

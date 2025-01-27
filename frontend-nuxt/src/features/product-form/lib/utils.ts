@@ -3,7 +3,7 @@ import {
 	type IProductIngredient,
 	defaultMapProductSizes,
 	defaultProductSizes,
-} from '~/src/entities/refactor/product';
+} from '~/src/entities/product';
 
 // @TODO локализация
 

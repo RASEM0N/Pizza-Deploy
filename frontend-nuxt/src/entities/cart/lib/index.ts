@@ -1,7 +1,7 @@
 import type { Cart, CartItem, CartDetail } from '../model/types';
 
 // @TODO
-import { defaultMapProductTypes } from '~/src/entities/refactor/product';
+import { defaultMapProductTypes } from '~/src/entities/product';
 
 export const getCartItemTotalPrice = (item: CartItem): number => {
 	return (getCartItemIngredientPrice(item) + item.productItem.price) * item.quantity;
