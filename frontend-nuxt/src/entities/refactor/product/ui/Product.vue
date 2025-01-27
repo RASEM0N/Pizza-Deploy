@@ -1,12 +1,9 @@
 <script setup lang="ts">
-interface Props {
-	product: Models.Product;
-	count?: number;
-}
+import type { Product } from '../model/types';
 
-// @TODO локализация потерялась
+// @todo локализация
 
-const { product } = defineProps<Props>();
+const { product } = defineProps<{ product: Product }>();
 
 const price = computed(() => product.items[0]?.price ?? 0);
 const description = computed(() => product.ingredients.map((v) => v.name).join(', '));

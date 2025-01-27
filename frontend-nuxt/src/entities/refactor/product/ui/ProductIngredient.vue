@@ -1,11 +1,7 @@
-<!--@TODO над чет придумать как лучше упаковать сущности-->
 <script setup lang="ts">
-interface Props {
-	ingredient: Models.Ingredient;
-	active?: boolean;
-}
+import type { ProductIngredient } from '../model/types';
 
-const { ingredient, active } = defineProps<Props>();
+defineProps<{ ingredient: ProductIngredient; active?: boolean }>();
 </script>
 <template>
 	<div

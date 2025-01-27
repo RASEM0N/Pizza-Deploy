@@ -6,9 +6,9 @@ interface Props {
 
 // @TODO проверить что работает, тут как надо получать лучше v-for
 
+const id = useId()
 const checked = defineModel<boolean>()
 const { text, value } = defineProps<Props>();
-const id = `checkbox-${value}`;
 
 </script>
 <template>
