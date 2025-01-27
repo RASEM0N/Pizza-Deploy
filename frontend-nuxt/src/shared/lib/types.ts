@@ -3,3 +3,10 @@ export interface Common {
 	createdAt: number;
 	updatedAt: number;
 }
+
+export enum FETCH_STATUS {
+	none,
+	loading,
+	loaded,
+	error,
+}

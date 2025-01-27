@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Product } from '../model/types';
+import type { IProduct } from '../model/types';
 
 // @todo локализация
 
-const { product } = defineProps<{ product: Product }>();
+const { product } = defineProps<{ product: IProduct }>();
 
 const price = computed(() => product.items[0]?.price ?? 0);
 const description = computed(() => product.ingredients.map((v) => v.name).join(', '));

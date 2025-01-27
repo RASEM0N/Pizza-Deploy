@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { ProductCategory } from '../model/types';
+import type { IProductCategory } from '../model/types';
 import Product from './Product.vue';
 
-defineProps<{ category: ProductCategory }>();
+defineProps<{ category: IProductCategory }>();
 
 
 // @TODO логика прежняя

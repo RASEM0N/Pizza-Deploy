@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { ProductCategory } from '../model/types';
+import type { IProductCategory } from '../model/types';
 
-defineProps<{ categories: ProductCategory[]; activeId: number }>();
+defineProps<{ categories: IProductCategory[]; activeId: number }>();
 </script>
 <template>
 	<div class="inline-flex gap-1 bg-gray-50 p-1 rounded-2xl">

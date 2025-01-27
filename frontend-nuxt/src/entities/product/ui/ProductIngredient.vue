@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { ProductIngredient } from '../model/types';
+import type { IProductIngredient } from '../model/types';
 
-defineProps<{ ingredient: ProductIngredient; active?: boolean }>();
+defineProps<{ ingredient: IProductIngredient; active?: boolean }>();
 </script>
 <template>
 	<div
