@@ -1,40 +1,18 @@
 <script setup lang="ts">
-import { LoginForm } from '~/src/features/auth/login-form';
-import { RegisterForm } from '~/src/features/auth/register-form';
+import { useAuthTabs } from '../model/useAuthTabs';
 
 // @TODO авторизация по github и google и yandex
-// @TODO локализация
-
-const open = defineModel();
-const currentTab = ref<keyof typeof tabs>('login');
-
-const tabs = {
-	login: {
-		name: 'Войти',
-		component: LoginForm,
-	},
-	register: {
-		name: 'Регистрация',
-		component: RegisterForm,
-	},
-};
-
-const switchTab = () => {
-	currentTab.value = currentTab.value === 'login' ? 'register' : 'login';
-};
-
-const onSuccess = () => {
-	open.value = false;
-};
+const open = ref(false)
+const { tabInfo, switchTab } = useAuthTabs();
 </script>
 
 <template>
 	<UiDialog v-model:open="open">
+		<UiDialogTrigger as-child>
+			<slot></slot>
+		</UiDialogTrigger>
 		<UiDialogContent>
-			<component
-				:is="tabs[currentTab].component"
-				@submit.success="onSuccess"
-			></component>
+			<component :is="tabInfo.component" @submit.success="open = false"></component>
 
 			<div class="flex gap-2">
 				<UiButton variant="secondary" class="gap-2 h-12 p-2 flex-1">
@@ -49,7 +27,7 @@ const onSuccess = () => {
 			</div>
 
 			<UiButton variant="outline" @click="switchTab" class="h-12">
-				{{ tabs[currentTab].name }}
+				{{ tabInfo.name }}
 			</UiButton>
 		</UiDialogContent>
 	</UiDialog>

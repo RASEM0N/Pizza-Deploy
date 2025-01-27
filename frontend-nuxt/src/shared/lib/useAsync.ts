@@ -8,6 +8,9 @@ export const useAsync = <T, A extends any[] = any[], E = Error>(
 	const status = ref<FETCH_STATUS>(FETCH_STATUS.none);
 	const result = ref<T | undefined>();
 	const error = ref<E>();
+	const loading = computed(() => status.value === FETCH_STATUS.loading);
+
+	// @TODO добавить логгер когда DEV
 
 	if (synchronizationRef) {
 		watch(result, (value) => {
@@ -43,6 +46,7 @@ export const useAsync = <T, A extends any[] = any[], E = Error>(
 	};
 
 	return {
+		loading,
 		status,
 		result,
 		error,

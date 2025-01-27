@@ -12,13 +12,14 @@ interface GetProductDetailsParams {
 	size: number;
 	items: IProductItem[];
 	ingredients: IProductIngredient[];
-	selectIngredientsId: Set<number>;
+	selectedIngredients: Set<number>;
 }
 
-interface AvailableProductSize {
+// @TODO название конечно....
+export interface AvailableProductVariant {
 	name: string;
 	value: number;
-	disabled: boolean;
+	disabled?: boolean;
 }
 
 export const getProductTotalPrice = ({
@@ -26,13 +27,13 @@ export const getProductTotalPrice = ({
 	size,
 	items,
 	ingredients,
-	selectIngredientsId,
+	selectedIngredients,
 }: GetProductDetailsParams) => {
 	const pizzaPrice =
 		items.find((item) => item.pizzaType === type && item.size === size)?.price || 0;
 
 	const totalIngredientsPrice = ingredients
-		.filter((ingredient) => selectIngredientsId.has(ingredient.id))
+		.filter((ingredient) => selectedIngredients.has(ingredient.id))
 		.reduce((acc, ingredient) => acc + ingredient.price, 0);
 
 	return pizzaPrice + totalIngredientsPrice;
@@ -48,7 +49,7 @@ export const getProductDetails = (params: GetProductDetailsParams) => {
 export const getAvailableProductItems = (
 	pizzaType: number,
 	items: IProductItem[],
-): AvailableProductSize[] => {
+): AvailableProductVariant[] => {
 	const availableProducts = items.filter((v) => v.pizzaType === pizzaType);
 	return defaultProductSizes().map((v) => ({
 		...v,

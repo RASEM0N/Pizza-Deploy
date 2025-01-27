@@ -4,6 +4,9 @@ import { type User, loginSchema, useUserStore } from '~/src/entities/user';
 // @TODO локализация
 
 export const useLoginForm = () => {
+
+	// @todo есть такое чувство что не отработает нормально
+	// надо проверять
 	const emits = defineEmits<{
 		'submit.success': [user: User];
 		'submit.error': [error: Error];

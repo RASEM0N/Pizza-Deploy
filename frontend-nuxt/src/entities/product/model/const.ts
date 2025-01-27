@@ -1,5 +1,5 @@
-export type DefaultProductSizes = 20 | 30 | 40;
-export type DefaultProductTypes = 1 | 2;
+export type DefaultProductSize = 20 | 30 | 40;
+export type DefaultProductType = 1 | 2;
 
 export const defaultMapProductSizes = (): { [key: number]: string } => {
 	const { t } = useI18n();

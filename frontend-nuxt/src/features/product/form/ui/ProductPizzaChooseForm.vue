@@ -1,49 +1,29 @@
 <script setup lang="ts">
 import ProductFormVariants from './ProductFormVariants.vue';
-import { getPizzaDetails, pizzaTypes, usePizzaOptions } from '../lib';
-import { Ingredient } from '~/src/entities/ingredient';
+import { useProductChooseForm } from '../model/useProductChooseForm';
+import { type IProduct, ProductIngredient } from '~/src/entities/product';
 
-// @TODO Локализация плиз
-
-interface Props {
-	product: Models.Product;
+// @TODO 20 30 40 в константы надо вынести и в компосайбе useProductChooseForm тоже поменять
+const { product, loading } = defineProps<{
+	product: IProduct;
 	loading: boolean;
-}
-
-interface Emits {
+}>();
+const emits = defineEmits<{
 	submit: [itemId: number, ingredients: number[]];
-}
-
-const { product } = defineProps<Props>();
-const emits = defineEmits<Emits>();
+}>();
 
 const {
-	type,
-	size,
+	details,
 	selectIngredient,
 	selectedIngredients,
 	availableSizes,
+	availableTypes,
 	currentItemId,
-} = usePizzaOptions(product.items);
+	currentSize,
+	currentType,
+} = useProductChooseForm(product);
 
-const details = computed(() =>
-	getPizzaDetails(
-		product.items,
-		product.ingredients,
-		type.value,
-		size.value,
-		selectedIngredients,
-	),
-);
-
-const selectSize = (value: number) => {
-	size.value = value as Models.PizzaSize;
-};
-
-const selectType = (value: number) => {
-	type.value = value as Models.PizzaType;
-};
-
+// @TODO странная форма, надо по другому как-то
 const submit = () => {
 	if (!currentItemId.value) {
 		return;
@@ -54,7 +34,7 @@ const submit = () => {
 </script>
 <template>
 	<div class="flex flex-1">
-		<!--		@TODO в компонент-->
+		<!--@TODO в компонент-->
 		<div class="flex items-center justify-center flex-1 relative w-full">
 			<NuxtImg
 				:src="product.imgUrl"
@@ -62,9 +42,9 @@ const submit = () => {
 				:class="[
 					'relative left-2 top-2 transition-all z-10 duration-300',
 					{
-						'w-[300px] h-[300px]': size === 20,
-						'w-[400px] h-[400px]': size === 30,
-						'w-[500px] h-[500px]': size === 40,
+						'w-[300px] h-[300px]': currentSize === 20,
+						'w-[400px] h-[400px]': currentSize === 30,
+						'w-[500px] h-[500px]': currentSize === 40,
 					},
 				]"
 			/>
@@ -82,24 +62,16 @@ const submit = () => {
 				{{ product.name }}
 			</UiTitle>
 
-			<p class="text-gray-400">{{ details.textDetails }}</p>
+			<p class="text-gray-400">{{ details.priceText }}</p>
 			<div class="flex flex-col gap-4 mt-5">
-				<ProductFormVariants
-					:variants="availableSizes"
-					:value="size"
-					@select="selectSize"
-				/>
-				<ProductFormVariants
-					:variants="pizzaTypes"
-					:value="type"
-					@select="selectType"
-				/>
+				<ProductFormVariants :variants="availableSizes" v-model="currentSize" />
+				<ProductFormVariants :variants="availableTypes" v-model="currentType" />
 			</div>
 			<div class="bg-gray-50 p-5 rounded-md h-[420px] overflow-auto scrollbar mt-5">
 				<div class="grid grid-cols-3 gap-3">
-					<Ingredient
-						v-for="ingredient in product.ingredients"
+					<ProductIngredient
 						@click="selectIngredient(ingredient.id)"
+						v-for="ingredient in product.ingredients"
 						:key="ingredient.id"
 						:ingredient="ingredient"
 						:active="selectedIngredients.has(ingredient.id)"

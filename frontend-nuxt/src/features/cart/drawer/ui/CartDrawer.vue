@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { useProductCart } from '~/src/features/product-form/model/service';
+import { useCartStore } from '~/src/entities/cart';
 import CartDrawerItem from './CartDrawerItem.vue';
-
 // @TODO локализация
 
 // @TODO локализация с "товара" "товаров" ...
 
 // @TODO разнести по компонентам
 
-const cart = useProductCart();
-
+const { cart, totalAmount, cartDetails, updateCart, removeCart } = useCartStore();
 const open = ref(false);
 </script>
 <template>
@@ -18,21 +16,21 @@ const open = ref(false);
 			<slot></slot>
 		</UiSheetTrigger>
 		<UiSheetContent class="flex flex-col justify-between pb-0 bg-[#F4F1EE]">
-			<template v-if="cart.totalAmount">
+			<template v-if="cart?.totalAmount">
 				<UiSheetTitle>
 					В корзине
-					<span class="font-bold">{{ cart.detailItems.length }} товара</span>
+					<span class="font-bold"> {{ cartDetails.length }} товара </span>
 				</UiSheetTitle>
 
 				<div class="-mx-6 mt-5 overflow-auto flex-1">
 					<CartDrawerItem
-						v-for="item in cart.detailItems"
+						v-for="item in cartDetails"
 						class="mb-2"
 						:key="item.id"
 						:item="item"
-						@item.add="cart.updateCartItem(item.id, item.quantity - 1)"
-						@item.remove="cart.updateCartItem(item.id, item.quantity - 1)"
-						@remove="cart.removeCartItem(item.id)"
+						@item.add="updateCart.execute(item.id, item.quantity - 1)"
+						@item.remove="updateCart.execute(item.id, item.quantity - 1)"
+						@remove="removeCart.execute(item.id)"
 					/>
 				</div>
 
@@ -46,9 +44,7 @@ const open = ref(false);
 								></div>
 							</div>
 
-							<span class="font-bold text-lg"
-								>{{ cart.totalAmount }} ₽</span
-							>
+							<span class="font-bold text-lg">{{ totalAmount }} ₽</span>
 						</div>
 
 						<NuxtLink to="/order">
@@ -61,7 +57,10 @@ const open = ref(false);
 				</UiSheetFooter>
 			</template>
 
-			<div v-else class="flex flex-col items-center justify-center w-72 mx-auto h-full">
+			<div
+				v-else
+				class="flex flex-col items-center justify-center w-72 mx-auto h-full"
+			>
 				<NuxtImg
 					src="/images/empty-box.png"
 					alt="Empty cart"

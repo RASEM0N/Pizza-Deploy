@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import AuthModal from '~/src/widgets/auth-modal/AuthModal.vue';
-import SearchProducts from '~/src/widgets/search-products/SearchProducts.vue';
-import CartButton from '~/src/features/cart-drawer/ui/CartButton.vue';
+// @TODO чето не в том месте
+import { AuthModal } from '~/src/widgets/auth-modal';
+
+import { SearchProducts } from '~/src/features/product/search';
+import { CartDrawerButton } from '~/src/features/cart/drawer';
 
 defineProps<{ hasSearch?: boolean; hasCart?: boolean }>();
 
-const isOpenAuth = ref(false);
 const { t } = useI18n();
 </script>
 <template>
@@ -26,14 +27,12 @@ const { t } = useI18n();
 			</div>
 
 			<div v-if="hasCart" class="flex items-center gap-3">
-				<AuthModal v-model="isOpenAuth" />
-
 				<!--@todo должно быть подцеплено к состоянию авторизации-->
-				<UiButton @click="isOpenAuth = true" variant="outline"
-					>{{ t('header.login') }}
-				</UiButton>
+				<AuthModal>
+					<UiButton variant="outline">{{ t('header.login') }}</UiButton>
+				</AuthModal>
 
-				<CartButton />
+				<CartDrawerButton />
 			</div>
 		</UiContainer>
 	</header>

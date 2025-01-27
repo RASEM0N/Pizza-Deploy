@@ -1,20 +1,17 @@
 <script setup lang="ts">
-import ProductFormVariants from './ProductFormVariants.vue';
-
 // @TODO Локализация плиз
 
-interface Props {
-	product: Models.Product;
-	productItem: Models.ProductItem
+import type { IProduct, IProductItem } from '~/src/entities/product';
+
+defineProps<{
+	product: IProduct;
+	productItem: IProductItem;
 	loading: boolean;
-}
+}>();
 
-interface Emits {
+const emits = defineEmits<{
 	submit: [itemId: number];
-}
-
-const { product, productItem } = defineProps<Props>();
-const emits = defineEmits<Emits>();
+}>();
 </script>
 <template>
 	<div class="flex flex-1">

@@ -1,29 +1,27 @@
 <script setup lang="ts">
-import type { Variant } from '~/src/features/product-form/lib';
+import type { AvailableProductVariant } from '../lib';
 
-interface Props {
-	variants: Variant[];
-	value: string;
-}
+defineProps<{ variants: AvailableProductVariant[] }>();
 
-interface Emits {
-	select: [value: Variant['value']];
-}
+const emits = defineEmits<{ select: [value: AvailableProductVariant] }>();
+const model = defineModel<number, number>();
 
-defineProps<Props>();
-defineEmits<Emits>();
+const select = (variant: AvailableProductVariant) => {
+	model.value = variant.value;
+	emits('select', variant);
+};
 </script>
 <template>
 	<div class="flex justify-between bg-[#F3F3F7] rounded-3xl p-1 select-none">
 		<button
+			@click="select(variant)"
 			v-for="variant in variants"
-			@click="$emit('select', variant.value)"
 			:key="variant.name"
 			:class="[
 				'flex items-center justify-center cursor-pointer h-[30px] px-5 flex-1',
 				'rounded-3xl transition-all duration-400 text-sm',
 				{
-					'bg-white shadow': variant.value === value,
+					'bg-white shadow': variant.value === model,
 					'text-gray-500 opacity-50 pointer-events-none': variant.disabled,
 				},
 			]"
