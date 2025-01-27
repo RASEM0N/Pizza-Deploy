@@ -2,5 +2,5 @@
 defineProps<{ src: string; alt?: string }>();
 </script>
 <template>
-	<img :src="src" :alt="alt" class="w-[60px] h-[60px]" />
+	<NuxtImg :src="src" :alt="alt" width="60" height="60" />
 </template>

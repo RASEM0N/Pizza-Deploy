@@ -1,38 +1,47 @@
 import type { Common } from '~/src/shared/lib/types';
 import type { Cart, CartItem } from '~/src/entities/refactor/cart/@x';
 
-export interface Product extends Common {
+export interface IProduct extends Common {
 	name: string;
 	imgUrl: string;
 
-	items: ProductItem[];
-	ingredients: ProductIngredient[];
+	items: IProductItem[];
+	ingredients: IProductIngredient[];
 
-	category: ProductCategory;
+	category: IProductCategory;
 	categoryId: number;
 }
 
-export interface ProductItem extends Common {
+export interface IProductItem extends Common {
 	price: number;
 	size: number;
 	pizzaType: number;
 
 	cartItem: CartItem;
+
+	product: IProduct;
+	productId: number;
 }
 
-export interface ProductIngredient extends Common {
+export interface IProductIngredient extends Common {
 	name: string;
 	price: number;
 	imgUrl: string;
 
-	product: Product;
+	product: IProduct;
 	productId: number;
 
 	cart: Cart;
 	cartId: number;
 }
 
-export interface ProductCategory extends Common {
+export interface IProductCategory extends Common {
 	name: string;
-	products: Product[];
+	products: IProduct[];
+}
+
+export interface IProductIngredientDetail {
+	name: string;
+	price: number;
+	disabled?: boolean;
 }

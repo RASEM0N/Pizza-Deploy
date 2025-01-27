@@ -10,7 +10,8 @@ defineEmits(['add', 'remove']);
 			type="button"
 			:disabled="value <= 1"
 			:class="[
-				'p-0 hover:bg-primary hover:text-white disabled:bg-white disabled:border-gray-400 disabled:text-gray-400 w-[30px] h-[30px] rounded-[10px]',
+				'p-0 hover:bg-primary hover:text-white disabled:bg-white disabled:border-gray-400',
+				'disabled:text-gray-400 w-[30px] h-[30px] rounded-[10px]',
 			]"
 		>
 			<IconMinus class="h-4" />
@@ -23,7 +24,8 @@ defineEmits(['add', 'remove']);
 			variant="outline"
 			type="button"
 			:class="[
-				'p-0 hover:bg-primary hover:text-white disabled:bg-white disabled:border-gray-400 disabled:text-gray-400 w-[30px] h-[30px] rounded-[10px]',
+				'p-0 hover:bg-primary hover:text-white disabled:bg-white disabled:border-gray-400',
+				'disabled:text-gray-400 w-[30px] h-[30px] rounded-[10px]',
 			]"
 		>
 			<IconPlus class="h-4" />

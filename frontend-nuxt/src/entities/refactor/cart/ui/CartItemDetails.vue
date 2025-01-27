@@ -1,4 +1,3 @@
-<script setup lang="ts"></script>
 <template>
 	<div class="flex my-4">
 		<div class="flex flex-1 text-lg text-neutral-500">

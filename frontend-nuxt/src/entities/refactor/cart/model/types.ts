@@ -1,5 +1,8 @@
 import type { Common } from '~/src/shared/lib/types';
-import type { ProductIngredient, ProductItem } from '~/src/entities/refactor/product/@x';
+import type {
+	IProductIngredient,
+	IProductItem,
+} from '~/src/entities/refactor/product/@x';
 
 export interface Cart extends Common {
 	token: string;
@@ -10,11 +13,31 @@ export interface Cart extends Common {
 
 export interface CartItem extends Common {
 	quantity: number;
-	ingredients: ProductIngredient[];
+	ingredients: IProductIngredient[];
 
-	productItem: ProductItem;
+	productItem: IProductItem;
 	productItemId: number;
 
 	cart: Cart;
 	cartId: number;
+}
+
+export interface CartDetail extends Pick<Common, 'id'> {
+	name: string;
+	quantity: number;
+	price: number;
+
+	imgUrl: string;
+	disabled: boolean;
+
+	pizzaSize: number;
+	pizzaType: number;
+
+	ingredients: CartIngredientDetail[];
+}
+
+export interface CartIngredientDetail {
+	name: string;
+	price: number;
+	disabled?: boolean;
 }
