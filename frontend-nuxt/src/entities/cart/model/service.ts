@@ -1,86 +1,53 @@
-import type { Cart, CartDetail } from './types';
-import { getCartDetail } from '../lib';
-import { FETCH_STATUS } from '~/src/shared/lib/types';
+import type { Cart } from './types';
+import { useAsync } from '~/src/shared/lib/useAsync';
+import { $apiFetch } from '~/src/shared/api';
+import { getCartDetails } from '~/src/entities/cart/lib';
 
-interface State {
-	cart?: Cart;
-	status: FETCH_STATUS;
-}
+export const useCartStore = defineStore('cart', () => {
+	const cart = ref<Cart>();
+	const totalAmount = computed(() => cart.value?.totalAmount ?? 0);
+	const cartDetails = computed(() => (cart.value ? getCartDetails(cart.value) : []));
 
-// @TODO ошибки не перхватить нормально
-export const useCart = defineStore('cart', {
-	state: (): State => ({ status: FETCH_STATUS.none }),
-	getters: {
-		loading(state): boolean {
-			return state.status === FETCH_STATUS.loading;
+	const loadMyCart = useAsync(
+		() => {
+			return $apiFetch<Cart>(`/api/cart`);
 		},
-		totalAmount(state): number {
-			return state.cart?.totalAmount ?? 0;
+		{ synchronizationRef: cart },
+	);
+
+	const createCartItem = useAsync(
+		(itemId: number, ingredients: number[]) => {
+			return $apiFetch<Cart>('/api/cart', {
+				method: 'POST',
+				body: { itemId, ingredients },
+			});
 		},
-		detailItems(state): CartDetail[] {
-			return state.cart ? getCartDetail(state.cart) : [];
+		{ synchronizationRef: cart },
+	);
+
+	const removeCartItem = useAsync(async (itemId: number) => {
+		await $apiFetch<void>(`/api/cart/${itemId}`, { method: 'DELETE' });
+		cart.value = undefined;
+	});
+
+	const updateCartItem = useAsync(
+		(itemId: number, quantity: number) => {
+			return $apiFetch<Cart>(`/api/cart/${itemId}`, {
+				method: 'PUT',
+				body: { quantity },
+			});
 		},
-	},
-	actions: {
-		async getMyCart() {
-			try {
-				this.status = FETCH_STATUS.loading;
-				const data = await $fetch<Cart>(`/api/cart`);
-				this.status = FETCH_STATUS.loaded;
-				this.cart = data;
-			} catch (e) {
-				this.status = FETCH_STATUS.error;
-			}
-		},
+		{ synchronizationRef: cart },
+	);
 
-		async updateCartItem(itemId: number, quantity: number) {
-			try {
-				this.status = FETCH_STATUS.loading;
+	return {
+		cart,
+		cartDetails,
+		totalAmount,
 
-				const data = await $fetch<Cart>(`/api/cart/${itemId}`, {
-					method: 'PUT',
-					body: { quantity },
-				});
-
-				this.status = FETCH_STATUS.loaded;
-				this.cart = data;
-			} catch (e) {
-				this.status = FETCH_STATUS.error;
-			}
-		},
-
-		async removeCartItem(itemId: number) {
-			try {
-				this.status = FETCH_STATUS.loading;
-
-				const data = await $fetch<Cart>(`/api/cart/${itemId}`, {
-					method: 'DELETE',
-				});
-
-				this.status = FETCH_STATUS.loaded;
-				this.cart = data;
-			} catch (e) {
-				this.status = FETCH_STATUS.error;
-			}
-		},
-
-		async addCartItem(itemId: number, ingredients?: number[]) {
-			try {
-				this.status = FETCH_STATUS.loading;
-
-				const data = await $fetch<Cart>(`/api/cart`, {
-					method: 'POST',
-					body: {
-						itemId,
-						ingredients,
-					},
-				});
-
-				this.status = FETCH_STATUS.loaded;
-				this.cart = data;
-			} catch (e) {
-				this.status = FETCH_STATUS.error;
-			}
-		},
-	},
+		loadMyCart,
+		updateCartItem,
+		createCartItem,
+		removeCartItem,
+	};
 });

@@ -9,7 +9,7 @@ export const getCartItemIngredientPrice = (item: CartItem): number => {
 	return item.ingredients.reduce((acc, ingredient) => acc + ingredient.price, 0);
 };
 
-export const getCartDetail = (cart: Cart): CartDetail[] => {
+export const getCartDetails = (cart: Cart): CartDetail[] => {
 	return cart.items.map((item) => ({
 		id: item.id,
 		quantity: item.quantity,
