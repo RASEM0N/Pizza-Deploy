@@ -1,11 +1,15 @@
-import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { User as UserModel } from '@prisma/client';
+import {
+	createParamDecorator,
+	ExecutionContext,
+	UnauthorizedException,
+} from '@nestjs/common';
+import { User } from '@prisma/client';
 
-export const CurrentUser = createParamDecorator((_, ctx: ExecutionContext): UserModel => {
+export const CurrentUser = createParamDecorator((_, ctx: ExecutionContext): User => {
 	const user = ctx.switchToHttp().getRequest()['user'];
 
 	if (!user) {
-		throw new Error('user is empty');
+		throw new UnauthorizedException();
 	}
 
 	return user;
