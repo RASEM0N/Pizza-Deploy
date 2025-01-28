@@ -21,7 +21,7 @@ export class UserService {
 	}
 
 	getAll(): Promise<User[]> {
-		return this.prisma.user.findMany({ omit: { password: false } }) ;
+		return this.prisma.user.findMany({ omit: { password: false } });
 	}
 
 	async create(dto: CreateUserDto): Promise<User> {
@@ -32,7 +32,7 @@ export class UserService {
 		// @todo
 		// @ts-ignore
 		return this.prisma.user.create({
-			data: { ...dto, password: hashedPassword },
+			data: { email: dto.email, fullName: dto.fullName, password: hashedPassword },
 			omit: { password: false },
 		});
 	}

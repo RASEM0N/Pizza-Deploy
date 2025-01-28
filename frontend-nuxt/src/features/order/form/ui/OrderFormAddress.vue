@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import type { Ref } from 'vue';
 import type { BaseFieldProps } from 'vee-validate';
 
-const {
-	comment: [comment, commentAttrs],
-	address: [address, addressAttrs],
-} = defineProps<{
-	address: [Ref<string>, Ref<BaseFieldProps>];
-	comment: [Ref<string>, Ref<BaseFieldProps>];
+const comment = defineModel<string>('comment');
+const address = defineModel<string>('address');
+
+defineProps<{
+	addressAttrs: BaseFieldProps;
+	commentAttrs: BaseFieldProps;
 }>();
 </script>
 <template>

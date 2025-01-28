@@ -10,16 +10,13 @@ import { FETCH_STATUS } from '~/src/shared/lib/types';
 const { t } = useI18n();
 
 const userStore = useUserStore();
-
-// @TODO из-за гидрации делаем так
-// надо дополительно как-то обработать none
-const loading = computed(() =>
-	[FETCH_STATUS.none, FETCH_STATUS.loading].includes(userStore.me.status),
-);
-onMounted(() => userStore.me.executeIfNone());
 </script>
 <template>
-	<UiButton v-if="loading" variant="outline" :loading="loading"></UiButton>
+	<UiButton
+		v-if="userStore.me.loading"
+		variant="outline"
+		:loading="userStore.me.loading"
+	></UiButton>
 
 	<template v-else>
 		<NuxtLink v-if="userStore.user" to="/profile">

@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import * as data from './data';
 import { productsWithIngredients, productWithIngredientsItems } from './data';
+import { generateProductItem } from './lib';
 
 const prisma = new PrismaClient();
 
@@ -8,7 +9,13 @@ const addData = async () => {
 	await prisma.user.createMany({ data: data.users });
 	await prisma.category.createMany({ data: data.categories });
 	await prisma.ingredient.createMany({ data: data.ingredients });
-	await prisma.product.createMany({ data: data.products });
+	const products = await prisma.product.createManyAndReturn({ data: data.products });
+
+	for (const product of products) {
+		await prisma.productItem.create({
+			data: generateProductItem({ productId: product.id }),
+		});
+	}
 
 	for (const data of productsWithIngredients) {
 		const product = await prisma.product.create({ data });

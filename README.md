@@ -27,6 +27,8 @@
 - запросы с findFirstAndThrow по итогу 500 ошибку тригерят
 
 ## Todo Nuxt
+- Loading с учетом гидрации
+- /Profile & /Order запускать без SSR 
 - Утащить i18n конфиг отсюда https://github.com/roke-to/roketo-business-ui/blob/master/apps/near-dapp/src/app/initI18n.ts
 - Nested Routes перезагружает контент (надо чтоб просто модалка закрылась и всё)
 - Поддержка КЛАВИАТУРЫ

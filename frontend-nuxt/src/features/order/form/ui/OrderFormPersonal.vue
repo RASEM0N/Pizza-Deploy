@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import type { Ref } from 'vue';
 import type { BaseFieldProps } from 'vee-validate';
 
-const {
-	fullName: [fullName, fullNameAttrs],
-	email: [email, emailAttrs],
-	phone: [phone, phoneAttrs],
-} = defineProps<{
-	fullName: [Ref<string>, Ref<BaseFieldProps>];
-	email: [Ref<string>, Ref<BaseFieldProps>];
-	phone: [Ref<string>, Ref<BaseFieldProps>];
+const email = defineModel<string>('email');
+const phone = defineModel<string>('phone');
+const fullName = defineModel<string>('fullName');
+
+defineProps<{
+	emailAttrs: BaseFieldProps;
+	phoneAttrs: BaseFieldProps;
+	fullNameAttrs: BaseFieldProps;
 }>();
 </script>
 <template>

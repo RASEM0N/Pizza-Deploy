@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Header } from '~/src/widgets/Header';
+import { useUserStore } from '~/src/entities/user';
+import { useCartStore } from '~/src/entities/cart';
 
 const { hasCart = true, hasSearch = true } = defineProps<{
 	hasCart?: boolean;
@@ -7,6 +9,9 @@ const { hasCart = true, hasSearch = true } = defineProps<{
 }>();
 
 const i18nHead = useLocaleHead();
+
+const userStore = useUserStore();
+const cartStore = useCartStore();
 
 // https://i18n.nuxtjs.org/docs/composables/use-locale-head
 // информация:
@@ -18,6 +23,11 @@ useHead(() => ({
 	meta: i18nHead.value.meta,
 	link: i18nHead.value.link,
 }));
+
+onMounted(() => {
+	userStore.me.executeIfNone();
+	cartStore.getCart.executeIfNone();
+});
 </script>
 <template>
 	<main class="min-h-screen bg-white rounded-3xl">

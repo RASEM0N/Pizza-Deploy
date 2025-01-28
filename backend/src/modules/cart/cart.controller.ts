@@ -22,8 +22,14 @@ export class CartController {
 	constructor(private readonly cartService: CartService) {}
 
 	@Get()
-	get(@Cookie('cart-token') token: string): Promise<Cart> {
-		return this.cartService.get(token);
+	get(
+		@Cookie({ name: 'cart-token', canEmpty: true }) token: string,
+	): Promise<Cart | undefined> {
+		if (!token) {
+			return;
+		}
+
+		return this.cartService.get(token, false);
 	}
 
 	@Post()

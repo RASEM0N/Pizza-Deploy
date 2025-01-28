@@ -1,24 +1,31 @@
-import { $apiFetch, useApiFetch } from '~/src/shared/api';
-import type { User } from '~/src/entities/user';
+import { $apiFetch } from '~/src/shared/api';
 import type { Order } from '~/src/entities/order';
 
 import { toTypedSchema } from '@vee-validate/zod';
 import { orderSchema } from '~/src/entities/order';
+import { useUserStore } from '~/src/entities/user';
 
 export const useOrderForm = () => {
-	const { data, status } = useApiFetch<User>('/api/auth/me');
-	const loadingFormData = computed(() => status.value !== 'pending');
+	const userStore = useUserStore();
+	const loadingFormData = computed(() => userStore.me.loading);
 
-	watch(data, (value) => {
-		setFieldValue('email', value.email);
-		setFieldValue('email', value.fullName);
-	});
+	watch(
+		() => userStore.user,
+		(value) => {
+			if (!value) {
+				return;
+			}
+
+			setFieldValue('email', value.email);
+			setFieldValue('fullName', value.fullName);
+		},
+	);
 
 	const { defineField, handleSubmit, setFieldValue } = useForm({
 		validationSchema: toTypedSchema(orderSchema()),
 		initialValues: {
-			email: '',
-			fullName: '',
+			email: userStore.user?.email ?? '',
+			fullName: userStore.user?.fullName ?? '',
 			phone: '',
 			address: '',
 			comment: '',

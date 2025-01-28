@@ -15,7 +15,7 @@ export class CartService {
 	constructor(private readonly prisma: PrismaService) {}
 
 	async get(token: string, fall = true): Promise<Cart> {
-		return (fall ? this.prisma.cart.findFirst : this.prisma.cart.findFirstOrThrow)({
+		return (fall ? this.prisma.cart.findFirstOrThrow : this.prisma.cart.findFirst)({
 			where: { token },
 			include: {
 				items: {

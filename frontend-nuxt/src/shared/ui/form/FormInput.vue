@@ -28,6 +28,7 @@ const clear = () => {
 			<button
 				v-show="model"
 				@click="clear"
+				type="button"
 				class="absolute right-4 top-1/2 -translate-y-1/2 opacity-30 hover:opacity-100 cursor-pointer"
 			>
 				<IconX class="h-5 w-5" />

@@ -15,6 +15,10 @@ export const generateProductItem = ({
 }) => {
 	let price;
 
+	if (!size) {
+		price = randomDecimalNumber(100, 400)
+	}
+
 	if (size === 20) {
 		price = randomDecimalNumber(150, 250)
 	}

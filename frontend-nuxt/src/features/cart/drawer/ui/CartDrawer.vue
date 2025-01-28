@@ -16,7 +16,7 @@ const open = ref(false);
 			<slot></slot>
 		</UiSheetTrigger>
 		<UiSheetContent class="flex flex-col justify-between pb-0 bg-[#F4F1EE]">
-			<template v-if="cartStore.cart?.items.length">
+			<template v-if="cartStore.cart?.items?.length">
 				<UiSheetTitle>
 					В корзине
 					<span class="font-bold">

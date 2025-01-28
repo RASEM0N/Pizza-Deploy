@@ -4,17 +4,9 @@ import { useCartStore } from '~/src/entities/cart';
 import { FETCH_STATUS } from '~/src/shared/lib/types';
 
 const cartStore = useCartStore();
-
-// @TODO из-за гидрации делаем так
-// надо дополительно как-то обработать none
-const loading = computed(() =>
-	[FETCH_STATUS.none, FETCH_STATUS.loading].includes(cartStore.getCart.status),
-);
-
-onMounted(() => cartStore.getCart.executeIfNone());
 </script>
 <template>
-	<UiButton v-if="loading" :loading="loading"></UiButton>
+	<UiButton v-if="cartStore.getCart.loading" :loading="cartStore.getCart.loading"></UiButton>
 	<CartDrawer v-else>
 		<UiButton class="group relative">
 			<b>{{ cartStore.totalAmount }} ₽</b>
