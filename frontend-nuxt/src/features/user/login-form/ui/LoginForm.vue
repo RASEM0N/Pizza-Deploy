@@ -30,6 +30,6 @@ const {
 		<UiFormInput v-model="email" v-bind="emailAttrs" label="E-Mail" required />
 		<UiFormInput v-model="password" v-bind="passwordAttrs" label="Пароль" required />
 
-		<UiButton class="h-12 text-base" type="submit"> Войти</UiButton>
+		<UiButton class="h-12 text-base" type="submit">Войти</UiButton>
 	</form>
 </template>
