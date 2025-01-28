@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { cn } from '~/src/shared/lib/cls';
+
+defineModel<{
+	asChild: boolean;
+}>();
 </script>
 <template>
-	<div :class="cn('mx-auto max-w-[1280px]')">
+	<div class="mx-auto max-w-[1280px]">
 		<slot></slot>
 	</div>
 </template>

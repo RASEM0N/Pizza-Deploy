@@ -27,6 +27,9 @@
 - запросы с findFirstAndThrow по итогу 500 ошибку тригерят
 
 ## Todo Nuxt
+- Service to Store
+- Перенести все schema to model/schema.ts
+- Чето в pages (model) странности происходят
 - Ошибка валидации ЛОКАЛИЗИРОВАТЬ + ВЫВОДИТЬ 
 - Добавить I к интерфейсам
 - Вырубить где не надо use-select и добавить cursor: pointer куда надо

@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { Categories } from '~/src/entities/category';
-import { ProductFilter } from '~/src/features/product-filter';
-import { ProductGroupList } from '~/src/entities/product';
+import { type IProductCategory, ProductGroupCategory } from '~/src/entities/product';
+import { ProductFilter } from '~/src/features/product/filter';
 import { useApiFetch } from '~/src/shared/api';
-import Stories from '~/src/widgets/stories/Stories.vue';
+import { Stories } from '~/src/widgets/stories';
+import {
+	ProductCategoriesFeed,
+	ProductIntersectionCategories,
+} from '~/src/features/product/categories-feed';
 
 // @TODO проверить что загружается на бэке
 // сюда еще body на основе текущего query надо передавать
 
-const { data } = await useApiFetch<Models.Category[]>('/api/category', {
+const { data } = await useApiFetch<IProductCategory[]>('/api/category', {
 	// @TODO
 	query: {},
 });
@@ -23,7 +26,7 @@ const { t } = useI18n();
 
 	<div class="sticky top-0 bg-white py-5 shadow-lg shadow-black/5">
 		<UiContainer class="flex items-center justify-between">
-			<Categories :categories="data" />
+			<ProductCategoriesFeed :categories="data" />
 			<UiSortPopup />
 		</UiContainer>
 	</div>
@@ -38,11 +41,14 @@ const { t } = useI18n();
 
 			<div class="flex-1">
 				<div class="flex flex-col gap-16">
-					<ProductGroupList
-						v-for="category in data"
-						:key="category.id"
-						:category="category"
-					/>
+					<ProductIntersectionCategories v-slot="{ observer }">
+						<ProductGroupCategory
+							v-for="category in data"
+							:key="category.id"
+							:category="category"
+							:ref="observer(category.id, $el)"
+						/>
+					</ProductIntersectionCategories>
 				</div>
 			</div>
 		</div>
