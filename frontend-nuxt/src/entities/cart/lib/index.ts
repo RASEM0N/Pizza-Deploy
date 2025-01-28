@@ -13,8 +13,8 @@ export const getCartDetails = (cart: Cart): CartDetail[] => {
 	return cart.items.map((item) => ({
 		id: item.id,
 		quantity: item.quantity,
-		name: item.productItem.product.name,
-		imgUrl: item.productItem.product.imgUrl,
+		name: item.productItem.Product.name,
+		imgUrl: item.productItem.Product.imgUrl,
 		pizzaSize: item.productItem.size,
 		pizzaType: item.productItem.pizzaType,
 		disabled: false,

@@ -5,12 +5,14 @@ import { useUserStore } from '~/src/entities/user';
 import { FETCH_STATUS } from '~/src/shared/lib/types';
 
 // @TODO
-// - Загрузка пользователя ни к месту тут 😕
 // - Auth - это widget
 
 const { t } = useI18n();
+
 const userStore = useUserStore();
 
+// @TODO из-за гидрации делаем так
+// надо дополительно как-то обработать none
 const loading = computed(() =>
 	[FETCH_STATUS.none, FETCH_STATUS.loading].includes(userStore.me.status),
 );

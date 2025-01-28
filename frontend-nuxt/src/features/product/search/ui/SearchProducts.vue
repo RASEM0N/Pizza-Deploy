@@ -1,7 +1,10 @@
 <script setup lang="ts">
+
+import type { IProduct } from '~/src/entities/product';
+
 const query = ref('');
 const focused = ref(false);
-const products = ref<Models.Product[]>([]);
+const products = ref<IProduct[]>([]);
 
 // @TODO надо протестировать
 
@@ -11,7 +14,7 @@ const router = useRouter();
 const search = useDebounceFn(async () => {
 	// @TODO привет гонка
 	// @TODO ссылка полная
-	products.value = await $fetch<Models.Product[]>('http://localhost:5000/api/product', {
+	products.value = await $fetch<IProduct[]>('http://localhost:5000/api/product', {
 		query: { query: query.value },
 	});
 }, 500);
@@ -22,7 +25,7 @@ watch(focused, (value) => {
 	}
 });
 
-const selectItem = async (product: Models.Product) => {
+const selectItem = async (product: IProduct) => {
 	// открываем попап продукта
 	router.push({ path: `/product/${product.id}` });
 

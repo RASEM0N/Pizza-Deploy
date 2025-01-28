@@ -8,7 +8,7 @@ export interface IProduct extends Common {
 	items: IProductItem[];
 	ingredients: IProductIngredient[];
 
-	category: IProductCategory;
+	Category: IProductCategory;
 	categoryId: number;
 }
 
@@ -19,7 +19,7 @@ export interface IProductItem extends Common {
 
 	cartItem: CartItem;
 
-	product: IProduct;
+	Product: IProduct;
 	productId: number;
 }
 
@@ -28,10 +28,10 @@ export interface IProductIngredient extends Common {
 	price: number;
 	imgUrl: string;
 
-	product: IProduct;
+	Product: IProduct;
 	productId: number;
 
-	cart: Cart;
+	Cart: Cart;
 	cartId: number;
 }
 

@@ -28,7 +28,7 @@ const { hasCart = true, hasSearch = true } = defineProps<{
 
 			<div v-if="hasCart" class="flex items-center gap-3">
 
-				<ProfileButton @click-login="" />
+				<ProfileButton />
 				<CartDrawerButton />
 			</div>
 		</UiContainer>

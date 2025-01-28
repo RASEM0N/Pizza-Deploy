@@ -13,7 +13,7 @@ const {
 }>();
 </script>
 <template>
-	<UiWhiteBlock title="2. Персональные данные">
+	<UiInfoBlock title="2. Персональные данные">
 		<div class="grid grid-cols-2 gap-5">
 			<UiFormInput
 				placeholder="Имя и фамилия"
@@ -34,5 +34,5 @@ const {
 				v-bind="phoneAttrs"
 			/>
 		</div>
-	</UiWhiteBlock>
+	</UiInfoBlock>
 </template>

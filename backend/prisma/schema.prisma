@@ -2,6 +2,9 @@
 // https://my-js.org/docs/guide/prisma
 // https://docs.nestjs.com/recipes/prisma
 
+// @TODO
+// - свойства в нижний регистр все
+
 generator client {
   provider = "prisma-client-js"
 }

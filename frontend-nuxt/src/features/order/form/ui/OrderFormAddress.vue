@@ -11,7 +11,7 @@ const {
 }>();
 </script>
 <template>
-	<UiWhiteBlock title="3. Адресс доставки">
+	<UiInfoBlock title="3. Адресс доставки">
 		<div class="grid grid-cols-2 gap-5">
 			<UiFormInput
 				class="text-base"
@@ -27,5 +27,5 @@ const {
 				v-bind="commentAttrs"
 			/>
 		</div>
-	</UiWhiteBlock>
+	</UiInfoBlock>
 </template>

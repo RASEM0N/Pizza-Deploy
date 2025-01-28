@@ -4,7 +4,7 @@ import { CartItemDetails } from '~/src/entities/cart';
 defineProps<{ totalAmount: number }>();
 </script>
 <template>
-	<UiWhiteBlock class="p-6 sticky top-4">
+	<UiInfoBlock class="p-6 sticky top-4">
 		<div class="flex flex-col gap-1">
 			<span class="text-xl">Итого:</span>
 			<div class="h-11 text-[34px] font-extrabold">
@@ -47,5 +47,5 @@ defineProps<{ totalAmount: number }>();
 			Перейти к оплате
 			<IconArrowRight class="w-5 ml-2" />
 		</UiButton>
-	</UiWhiteBlock>
+	</UiInfoBlock>
 </template>

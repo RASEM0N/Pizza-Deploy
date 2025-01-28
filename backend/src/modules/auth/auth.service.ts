@@ -24,7 +24,8 @@ export class AuthService {
 
 	// @todo -> UserController Post method
 	async register(dto: RegisterDto): Promise<User> {
-		const user = this.userService.create(dto);
+		const user = await this.userService.create(dto);
+
 
 		// @TODO по идее это должно быть в другом месте
 		// в создание

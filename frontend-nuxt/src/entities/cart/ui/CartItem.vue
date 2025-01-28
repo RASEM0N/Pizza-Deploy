@@ -7,7 +7,7 @@ import CartItemImg from './CartItemImg.vue';
 import CartItemInfo from './CartItemInfo.vue';
 import CartItemCountButton from './CartItemCountButton.vue';
 
-const emits = defineEmits(['item.add', 'item.remove', 'remove']);
+const emits = defineEmits(['item:add', 'item:remove', 'remove']);
 const { item } = defineProps<{ item: CartDetail }>();
 
 const description = computed(() => getCartDetailDescription(item));
@@ -30,8 +30,8 @@ const description = computed(() => getCartDetailDescription(item));
 
 		<div class="flex items-center gap-5 ml-20">
 			<CartItemCountButton
-				@add="emits('item.add')"
-				@remove="emits('item.remove')"
+				@add="emits('item:add')"
+				@remove="emits('item:remove')"
 				:value="item.quantity"
 			/>
 

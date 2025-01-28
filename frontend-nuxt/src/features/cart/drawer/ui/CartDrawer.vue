@@ -3,11 +3,11 @@ import { useCartStore } from '~/src/entities/cart';
 import CartDrawerItem from './CartDrawerItem.vue';
 // @TODO локализация
 
-// @TODO локализация с "товара" "товаров" ...
-
 // @TODO разнести по компонентам
 
-const { cart, totalAmount, cartDetails, updateCart, removeCart } = useCartStore();
+// @TODO добавить обработку loading для кнопок
+
+const cartStore = useCartStore();
 const open = ref(false);
 </script>
 <template>
@@ -16,21 +16,27 @@ const open = ref(false);
 			<slot></slot>
 		</UiSheetTrigger>
 		<UiSheetContent class="flex flex-col justify-between pb-0 bg-[#F4F1EE]">
-			<template v-if="cart?.totalAmount">
+			<template v-if="cartStore.cart?.items.length">
 				<UiSheetTitle>
 					В корзине
-					<span class="font-bold"> {{ cartDetails.length }} товара </span>
+					<span class="font-bold">
+						{{ cartStore.cartDetails.length }} товара
+					</span>
 				</UiSheetTitle>
 
 				<div class="-mx-6 mt-5 overflow-auto flex-1">
 					<CartDrawerItem
-						v-for="item in cartDetails"
+						v-for="item in cartStore.cartDetails"
 						class="mb-2"
 						:key="item.id"
 						:item="item"
-						@item.add="updateCart.execute(item.id, item.quantity - 1)"
-						@item.remove="updateCart.execute(item.id, item.quantity - 1)"
-						@remove="removeCart.execute(item.id)"
+						@item:add="
+							cartStore.updateCart.execute(item.id, item.quantity + 1)
+						"
+						@item:remove="
+							cartStore.updateCart.execute(item.id, item.quantity - 1)
+						"
+						@remove="cartStore.removeCart.execute(item.id)"
 					/>
 				</div>
 
@@ -44,7 +50,9 @@ const open = ref(false);
 								></div>
 							</div>
 
-							<span class="font-bold text-lg">{{ totalAmount }} ₽</span>
+							<span class="font-bold text-lg"
+								>{{ cartStore.totalAmount }} ₽</span
+							>
 						</div>
 
 						<NuxtLink to="/order">

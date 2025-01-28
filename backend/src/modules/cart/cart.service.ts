@@ -5,6 +5,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { CreateCartDto } from './dto/create.dto';
 import { UpdateCartDto } from '@/modules/cart/dto/update.dto';
 
+// @TODO
+// - надо навестить порядок в логике
+// - надо навестить порядок в запросах
+// - ts-ignore убрать
+
 @Injectable()
 export class CartService {
 	constructor(private readonly prisma: PrismaService) {}
@@ -33,9 +38,9 @@ export class CartService {
 		const cart = await this.createOrGet(token);
 
 		await this.createOrUpdateItem(cart.id, dto);
-		await this._actualizeTotalAmount(cart);
+		const actualizedCart = await this._actualizeTotalAmount(cart.id);
 
-		return { cart, token };
+		return { cart: actualizedCart, token };
 	}
 
 	async update(token: string, cartItemId: number, dto: UpdateCartDto): Promise<Cart> {
@@ -44,17 +49,17 @@ export class CartService {
 			data: { quantity: dto.quantity },
 		});
 
-		return this._actualizeTotalAmount(await this.get(token));
+		return this._actualizeTotalAmount((await this.get(token)).id);
 	}
 
 	async deleteItem(token: string, cartItemId: number): Promise<Cart> {
 		await this.prisma.cartItem.findFirstOrThrow({ where: { id: cartItemId } });
 		await this.prisma.cartItem.delete({ where: { id: cartItemId } });
 
-		return await this._actualizeTotalAmount(await this.get(token));
+		return await this._actualizeTotalAmount((await this.get(token)).id);
 	}
 
-	async createOrUpdateItem(cartId: Cart, dto: CreateCartDto): Promise<CartItem> {
+	async createOrUpdateItem(cartId: number, dto: CreateCartDto): Promise<CartItem> {
 		const cartItem = await this.prisma.cartItem.findFirst({
 			where: {
 				cartId,
@@ -68,8 +73,6 @@ export class CartService {
 		});
 
 		if (cartItem) {
-
-			// @TODO
 			// @ts-ignore
 			return this.prisma.cartItem.update({
 				where: { id: cartItem.id },
@@ -90,13 +93,19 @@ export class CartService {
 	}
 
 	async createOrGet(token: string): Promise<Cart> {
-		const cart = await this.prisma.cart.findFirst({ where: { token } });
+		const cart = await this.prisma.cart.findFirst({
+			where: { token },
+			include: { items: true },
+		});
 
 		if (cart) {
 			return cart;
 		}
 
-		return this.prisma.cart.create({ data: { token } });
+		return this.prisma.cart.create({
+			data: { token },
+			include: { items: true },
+		});
 	}
 
 	async clear(id: number): Promise<void> {
@@ -104,10 +113,19 @@ export class CartService {
 		await this.prisma.cartItem.deleteMany({ where: { cartId: id } });
 	}
 
-	private _actualizeTotalAmount(cart: Cart): Promise<Cart> {
+	private async _actualizeTotalAmount(id: number): Promise<Cart> {
+		const cart = await this.prisma.cart.findFirstOrThrow({
+			where: { id },
+			include: {
+				items: {
+					include: { ingredients: true, productItem: true },
+				},
+			},
+		});
+
 		return this.prisma.cart.update({
-			where: { id: cart.id },
-			data: { totalAmount: this._calculateTotalAmount(cart) },
+			where: { id },
+			data: { totalAmount: this._calculateTotalAmount(cart as Cart) },
 			include: {
 				items: {
 					orderBy: { createdAt: 'desc' },
@@ -123,17 +141,21 @@ export class CartService {
 	}
 
 	private _calculateTotalAmount(cart: Cart): number {
-		return cart.item.reduce(
+		// @ts-ignore
+		return cart.items.reduce(
 			(res, item) => res + this._calculateItemTotalPrice(item),
 			0,
 		);
 	}
 
 	private _calculateItemTotalPrice(item: CartItem): number {
+		// @ts-ignore
 		const ingredientPrice = item.ingredients.reduce(
 			(acc, ingredient) => acc + ingredient.price,
 			0,
 		);
+
+		// @ts-ignore
 		return (ingredientPrice + item.productItem.price) * item.quantity;
 	}
 }

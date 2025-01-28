@@ -8,7 +8,7 @@ import {
 } from '~/src/entities/cart';
 import { getCartDetailDescription } from '~/src/entities/cart/lib';
 
-const emits = defineEmits(['item.add', 'item.remove', 'remove']);
+const emits = defineEmits(['item:add', 'item:remove', 'remove']);
 const { item, disabled } = defineProps<{ item: CartDetail; disabled?: boolean }>();
 const description = computed(() => getCartDetailDescription(item));
 </script>
@@ -30,8 +30,8 @@ const description = computed(() => getCartDetailDescription(item));
 
 			<div class="flex items-center justify-between">
 				<CartItemCountButton
-					@add="emits('item.add')"
-					@remove="emits('item.remove')"
+					@add="emits('item:add')"
+					@remove="emits('item:remove')"
 					:value="item.quantity"
 				/>
 

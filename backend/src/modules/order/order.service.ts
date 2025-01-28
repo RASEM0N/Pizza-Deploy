@@ -32,7 +32,9 @@ export class OrderService {
 				...dto,
 				status: OrderStatus.PENDING,
 				totalAmount: cart.totalAmount,
-				items: JSON.stringify(cart.items),
+
+				// @todo any
+				items: JSON.stringify((cart as any).items),
 			},
 		});
 
@@ -41,7 +43,7 @@ export class OrderService {
 		// @todo
 		// @ts-ignore
 		const paymentData = await this.yookassaService.createPayment({
-			orderId: order.id,
+			orderId: String(order.id),
 			amount: order.totalAmount,
 			description: `Оплата заказа #${order.id}`,
 		});

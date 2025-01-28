@@ -15,6 +15,8 @@ export const useCartStore = defineStore('cart', () => {
 		{ synchronizationRef: cart },
 	);
 
+	// @TODO CREATE REMOVE UPDATE это для Item
+
 	const createCart = useAsync(
 		(productItemId: number, ingredients: number[]) => {
 			return $apiFetch<Cart>('/api/cart', {
@@ -25,10 +27,10 @@ export const useCartStore = defineStore('cart', () => {
 		{ synchronizationRef: cart },
 	);
 
-	const removeCart = useAsync(async (itemId: number) => {
-		await $apiFetch<void>(`/api/cart/${itemId}`, { method: 'DELETE' });
-		cart.value = undefined;
-	});
+	const removeCart = useAsync(
+		(itemId: number) => $apiFetch<Cart>(`/api/cart/${itemId}`, { method: 'DELETE' }),
+		{ synchronizationRef: cart },
+	);
 
 	const updateCart = useAsync(
 		(itemId: number, quantity: number) => {
