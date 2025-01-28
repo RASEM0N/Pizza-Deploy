@@ -6,13 +6,13 @@ import type { User } from '~/src/entities/user';
 
 const { t } = useI18n();
 const emits = defineEmits<{
-	'submit.success': [user: User];
-	'submit.error': [error: unknown];
+	'success': [user: User];
+	'error': [error: unknown];
 }>();
 
-const { submit, fields } = useRegisterForm({
-	onError: (error) => emits('submit.error', error),
-	onSuccess: (user) => emits('submit.success', user),
+const { submit, fields, loading } = useRegisterForm({
+	onError: (error) => emits('error', error),
+	onSuccess: (user) => emits('success', user),
 });
 const {
 	email: [email, emailAttrs],
@@ -40,6 +40,7 @@ const {
 			v-model="email"
 			v-bind="emailAttrs"
 			:label="t('common.input.email')"
+			type="email"
 			required
 		/>
 		<UiFormInput
@@ -51,17 +52,19 @@ const {
 		<UiFormInput
 			v-model="password"
 			v-bind="passwordAttrs"
+			type="password"
 			:label="t('common.input.password')"
 			required
 		/>
 		<UiFormInput
 			v-model="confirmPassword"
 			v-bind="confirmPasswordAttrs"
+			type="password"
 			:label="t('common.input.confirm_password')"
 			required
 		/>
 
-		<UiButton class="h-12 text-base" type="submit">
+		<UiButton class="h-12 text-base" type="submit" :loading="loading">
 			{{ t('user.register.submit') }}
 		</UiButton>
 	</form>

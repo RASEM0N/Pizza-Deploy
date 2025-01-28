@@ -34,6 +34,7 @@ export const useRegisterForm = ({ onError, onSuccess }: Params = {}) => {
 
 	return {
 		submit,
+		loading: computed(() => userStore.register.loading),
 		fields: {
 			email: defineField('email'),
 			fullName: defineField('fullName'),

@@ -4,13 +4,15 @@ import type { User } from '~/src/entities/user';
 
 const { t } = useI18n();
 const emits = defineEmits<{
-	'submit.success': [user: User];
-	'submit.error': [error: unknown];
+	'success': [user: User];
+	'error': [error: unknown];
 }>();
 
-const { submit, fields } = useLoginForm({
-	onError: (error) => emits('submit.error', error),
-	onSuccess: (user) => emits('submit.success', user),
+const v = ref(ref(0))
+
+const { submit, fields, loading } = useLoginForm({
+	onError: (error) => emits('error', error),
+	onSuccess: (user) => emits('success', user),
 });
 const {
 	email: [email, emailAttrs],
@@ -34,19 +36,21 @@ const {
 		</div>
 
 		<UiFormInput
+			type="email"
 			v-model="email"
 			v-bind="emailAttrs"
 			:label="t('common.input.email')"
 			required
 		/>
 		<UiFormInput
+			type="password"
 			v-model="password"
 			v-bind="passwordAttrs"
 			:label="t('common.input.password')"
 			required
 		/>
 
-		<UiButton class="h-12 text-base" type="submit">
+		<UiButton class="h-12 text-base" type="submit" :loading="loading">
 			{{ t('user.login.submit') }}
 		</UiButton>
 	</form>

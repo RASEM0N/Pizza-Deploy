@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 interface Props {
-	size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 }
 
 const { size } = defineProps<Props>();

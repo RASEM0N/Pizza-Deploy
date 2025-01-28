@@ -6,6 +6,9 @@ import { hash, genSalt, compare } from 'bcrypt';
 import { PrismaService } from '@/shared/prisma';
 import { ResendService } from 'nestjs-resend';
 
+// @TODO
+// - password не надо возвращать
+
 @Injectable()
 export class UserService {
 	constructor(
@@ -18,7 +21,7 @@ export class UserService {
 	}
 
 	getAll(): Promise<User[]> {
-		return this.prisma.user.findMany({ omit: { password: false } });
+		return this.prisma.user.findMany({ omit: { password: false } }) ;
 	}
 
 	async create(dto: CreateUserDto): Promise<User> {

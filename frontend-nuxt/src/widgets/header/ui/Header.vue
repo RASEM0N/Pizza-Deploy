@@ -1,16 +1,13 @@
 <script setup lang="ts">
-// @TODO чето не в том месте
-import { AuthModal } from '~/src/widgets/auth-modal';
-
 import { SearchProducts } from '~/src/features/product/search';
 import { CartDrawerButton } from '~/src/features/cart/drawer';
+import { ProfileButton } from '~/src/features/user/profile-button';
 
+const { t } = useI18n();
 const { hasCart = true, hasSearch = true } = defineProps<{
 	hasSearch?: boolean;
 	hasCart?: boolean;
 }>();
-
-const { t } = useI18n();
 </script>
 <template>
 	<header class="border-b border-gray-100">
@@ -30,11 +27,8 @@ const { t } = useI18n();
 			</div>
 
 			<div v-if="hasCart" class="flex items-center gap-3">
-				<!--@todo должно быть подцеплено к состоянию авторизации-->
-				<AuthModal>
-					<UiButton variant="outline">{{ t('header.login') }}</UiButton>
-				</AuthModal>
 
+				<ProfileButton @click-login="" />
 				<CartDrawerButton />
 			</div>
 		</UiContainer>

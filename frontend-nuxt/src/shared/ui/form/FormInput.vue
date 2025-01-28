@@ -9,8 +9,6 @@ interface Props {
 
 defineProps<Props>();
 
-// @TODO проверить что атрибуты нормально передались
-
 const emits = defineEmits(['clear']);
 const model = defineModel<string>();
 

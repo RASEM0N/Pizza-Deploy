@@ -26,13 +26,11 @@ async function bootstrap() {
 
 	// @TODO надо настривать
 	app.enableCors({
-		// origin: [
-		// 	'http://localhost:3000',
-		// ],
+		origin: ['http://localhost:3000'],
 
-		// пока что оставил для всех
-		origin: true,
-		methods: ['GET', 'POST'],
+		// чтоб можно было из http://localhost:3000
+		// кукисы принимать и записывать
+		credentials: true
 	});
 
 	// https://docs.nestjs.com/openapi/introduction

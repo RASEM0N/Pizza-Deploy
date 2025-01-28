@@ -2,10 +2,12 @@ import type { User } from './types';
 import { useAsync } from '~/src/shared/lib/useAsync';
 import { $apiFetch } from '~/src/shared/api';
 
-// @todo давай без этих там сторов, есть Service или Model
-
 export const useUserStore = defineStore('user', () => {
 	const user = ref<User>();
+
+	const me = useAsync(() => $apiFetch<User>('/api/auth/me'), {
+		synchronizationRef: user,
+	});
 
 	const login = useAsync(
 		(data: Pick<User, 'email' | 'password'>) =>
@@ -15,6 +17,11 @@ export const useUserStore = defineStore('user', () => {
 			}),
 		{ synchronizationRef: user },
 	);
+
+	const logout = useAsync(async () => {
+		await $apiFetch<User>('/api/auth/logout', { method: 'POST' });
+		user.value = undefined;
+	});
 
 	const register = useAsync((data: Pick<User, 'email' | 'fullName' | 'password'>) =>
 		$apiFetch<User>('/api/auth/register', {
@@ -35,6 +42,8 @@ export const useUserStore = defineStore('user', () => {
 	return {
 		user,
 
+		me,
+		logout,
 		update,
 		login,
 		register,

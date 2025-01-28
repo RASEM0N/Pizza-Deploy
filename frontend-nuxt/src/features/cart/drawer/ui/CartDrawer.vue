@@ -66,6 +66,7 @@ const open = ref(false);
 					alt="Empty cart"
 					width="120"
 					height="120"
+					draggable="false"
 				/>
 				<UiTitle size="sm" class="text-center font-bold my-2">
 					Корзина пустая

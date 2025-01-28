@@ -28,12 +28,13 @@ export class AuthController {
 	async login(@Response() response: ExpResponse, @Body() dto: LoginDto) {
 		const { user, token } = await this.authService.login(dto);
 		setAuthToken(response, token);
-		return user;
+		response.json(user);
 	}
 
 	@Post('logout')
 	logout(@Response() response: ExpResponse) {
 		clearAuthToken(response);
+		response.json();
 	}
 
 	@Post('verify')

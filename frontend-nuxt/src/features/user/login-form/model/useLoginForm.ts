@@ -32,6 +32,7 @@ export const useLoginForm = ({ onError, onSuccess }: Params = {}) => {
 
 	return {
 		submit,
+		loading: computed(() => userStore.login.loading),
 		fields: {
 			email: defineField('email'),
 			password: defineField('password'),

@@ -3,6 +3,7 @@ import type { IProduct } from '../model/types';
 
 // @todo локализация
 
+const { t } = useI18n();
 const { product } = defineProps<{ product: IProduct }>();
 
 const price = computed(() => product.items[0]?.price ?? 0);
@@ -12,9 +13,10 @@ const description = computed(() => product.ingredients.map((v) => v.name).join('
 	<NuxtLink :to="`/product/${product.id}`" class="flex flex-col">
 		<div class="flex justify-center p-6 bg-secondary rounded-lg h-[260px]">
 			<NuxtImg
-				class="w-[215px] h-[215px] object-contain"
 				:src="product.imgUrl"
+				class="w-[215px] h-[215px] object-contain"
 				alt="Logo"
+				draggable="false"
 			/>
 		</div>
 		<UiTitle size="sm" class="mb-1 mt-3 font-bold">
@@ -29,7 +31,7 @@ const description = computed(() => product.ingredients.map((v) => v.name).join('
 			</span>
 			<UiButton variant="secondary">
 				<IconPlus class="w-4 h-4 mr-1" />
-				Добавить
+				{{ t('common.button.add') }}
 			</UiButton>
 		</div>
 	</NuxtLink>

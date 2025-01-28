@@ -20,6 +20,7 @@ const emits = defineEmits<{
 				class="relative left-2 top-2 transition-all z-10 duration-300 w-[350px] h-[350px]"
 				:alt="product.name"
 				:src="product.imgUrl"
+				draggable="false"
 			/>
 		</div>
 		<div class="w-[490px] bg-[#f7f6f5] p-7">

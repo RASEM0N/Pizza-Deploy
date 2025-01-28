@@ -1,6 +1,10 @@
 import { FETCH_STATUS } from '~/src/shared/lib/types';
 import type { Ref } from 'vue';
 
+// @TODO
+// - добавить логгер когда DEV
+// - добавил сейв промисса, что запрос нельзя несколько раз пока он идет
+
 export const useAsync = <T, A extends any[] = any[], E = Error>(
 	asyncFn: (...args: A) => Promise<T> | T,
 	{ synchronizationRef }: { synchronizationRef?: Ref<T | undefined> } = {},
@@ -9,8 +13,6 @@ export const useAsync = <T, A extends any[] = any[], E = Error>(
 	const result = ref<T | undefined>();
 	const error = ref<E>();
 	const loading = computed(() => status.value === FETCH_STATUS.loading);
-
-	// @TODO добавить логгер когда DEV
 
 	if (synchronizationRef) {
 		watch(result, (value) => {
@@ -28,6 +30,7 @@ export const useAsync = <T, A extends any[] = any[], E = Error>(
 			return resultFn;
 		} catch (e) {
 			status.value = FETCH_STATUS.error;
+			error.value = e as E;
 		}
 	};
 
@@ -41,7 +44,20 @@ export const useAsync = <T, A extends any[] = any[], E = Error>(
 			return resultFn;
 		} catch (e) {
 			status.value = FETCH_STATUS.error;
+			error.value = e as E;
 			throw e;
+		}
+	};
+
+	const executeIfNone = (...args: A) => {
+		if ([FETCH_STATUS.none, FETCH_STATUS.error].includes(status.value)) {
+			execute(...args);
+		}
+	};
+
+	const executeIfNoneWithThrow = (...args: A) => {
+		if ([FETCH_STATUS.none, FETCH_STATUS.error].includes(status.value)) {
+			executeWithThrow(...args);
 		}
 	};
 
@@ -52,5 +68,7 @@ export const useAsync = <T, A extends any[] = any[], E = Error>(
 		error,
 		execute,
 		executeWithThrow,
+		executeIfNoneWithThrow,
+		executeIfNone,
 	};
 };

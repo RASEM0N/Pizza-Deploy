@@ -29,7 +29,6 @@ const { t } = useI18n();
 	<div class="sticky top-0 bg-white py-5 shadow-lg shadow-black/5">
 		<UiContainer class="flex items-center justify-between">
 			<ProductCategoriesFeed :categories="data" />
-			<UiSortPopup />
 		</UiContainer>
 	</div>
 
@@ -45,6 +44,7 @@ const { t } = useI18n();
 				<div class="flex flex-col gap-16">
 						<ProductGroupCategory
 							v-for="category in data"
+							:id="category.name"
 							:key="category.id"
 							:category="category"
 						/>

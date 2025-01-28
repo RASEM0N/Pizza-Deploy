@@ -5,12 +5,12 @@ import { ApiProperty } from '@nestjs/swagger';
 export class UserEntity {
 	@ApiProperty()
 	@IsEmail()
-	@Length(4, 20)
+	@Length(4, 60)
 	email: string;
 
 	@ApiProperty()
 	@IsString()
-	@Length(10, 40)
+	@Length(8, 40)
 	password: string;
 
 	@ApiProperty()
