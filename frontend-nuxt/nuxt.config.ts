@@ -4,7 +4,6 @@ export default defineNuxtConfig({
 	compatibilityDate: '2025-01-21',
 	runtimeConfig: {
 		public: {
-			// @TODO http://localhost:5000
 			baseUrl: 'http://localhost:5000',
 		},
 	},

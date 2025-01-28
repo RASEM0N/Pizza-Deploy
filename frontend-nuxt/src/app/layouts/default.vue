@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PageHeader } from '~/src/widgets/Header';
+import { Header } from '~/src/widgets/Header';
 
 const { hasCart = true, hasSearch = true } = defineProps<{
 	hasCart?: boolean;
@@ -21,7 +21,7 @@ useHead(() => ({
 </script>
 <template>
 	<main class="min-h-screen bg-white rounded-3xl">
-		<PageHeader :has-cart="hasCart" :has-search="hasSearch" />
+		<Header :has-cart="hasCart" :has-search="hasSearch" />
 		<slot></slot>
 	</main>
 </template>

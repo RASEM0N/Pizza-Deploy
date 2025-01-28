@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { cn } from '../../lib/cls';
+import { cn } from '~/src/shared/lib/cn';
 import {
 	PopoverContent,
 	type PopoverContentEmits,

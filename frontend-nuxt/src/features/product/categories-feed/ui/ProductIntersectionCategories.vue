@@ -27,7 +27,9 @@ useIntersectionObserver(
 );
 
 const observer = (categoryId: number, elem: HTMLElement) => {
-	elem.setAttribute(dataAttribute, String(categoryId));
+
+	// @TODO
+	elem?.setAttribute?.(dataAttribute, String(categoryId));
 	mapTargets.set(categoryId, elem);
 };
 </script>

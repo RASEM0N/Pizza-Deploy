@@ -5,7 +5,9 @@ import { useApiFetch } from '~/src/shared/api';
 import { Stories } from '~/src/widgets/stories';
 import {
 	ProductCategoriesFeed,
-	ProductIntersectionCategories,
+
+	// @TODO Работает через очко на бэке
+	// ProductIntersectionCategories,
 } from '~/src/features/product/categories-feed';
 
 // @TODO проверить что загружается на бэке
@@ -41,14 +43,11 @@ const { t } = useI18n();
 
 			<div class="flex-1">
 				<div class="flex flex-col gap-16">
-					<ProductIntersectionCategories v-slot="{ observer }">
 						<ProductGroupCategory
 							v-for="category in data"
 							:key="category.id"
 							:category="category"
-							:ref="observer(category.id, $el)"
 						/>
-					</ProductIntersectionCategories>
 				</div>
 			</div>
 		</div>

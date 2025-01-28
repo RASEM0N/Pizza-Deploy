@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { cn } from '~/src/shared/lib/cls'
+import { cn } from '~/src/shared/lib/cn'
 import { DialogDescription, type DialogDescriptionProps } from 'radix-vue'
 import { computed, type HTMLAttributes } from 'vue'
 

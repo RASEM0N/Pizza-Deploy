@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { SliderRootEmits, SliderRootProps } from 'radix-vue';
-import { cn } from '../../lib/cls';
+import { cn } from '~/src/shared/lib/cn';
 import {
 	SliderRange,
 	SliderRoot,

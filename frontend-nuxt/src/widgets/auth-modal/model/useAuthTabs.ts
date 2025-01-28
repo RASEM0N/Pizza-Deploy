@@ -1,5 +1,5 @@
-import { LoginForm } from '~/src/features/auth/login-form';
-import { RegisterForm } from '~/src/features/auth/register-form';
+import { LoginForm } from '~/src/features/user/login-form';
+import { RegisterForm } from '~/src/features/user/register-form';
 import type { Component } from 'vue';
 
 type Tab = 'login' | 'register';

@@ -18,11 +18,9 @@ html {
         @apply font-nunito
     }
 
-    /*@TODO убрать перетаскивание также*/
     img {
         user-select: none;
     }
-
 
     :root {
         --foreground: 20 14.3% 4.1%;

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CheckboxRootEmits, CheckboxRootProps } from 'radix-vue';
-import { cn } from '../../lib/cls';
+import { cn } from '~/src/shared/lib/cn';
 import { Check } from 'lucide-vue-next';
 import { CheckboxIndicator, CheckboxRoot, useForwardPropsEmits } from 'radix-vue';
 import { computed, type HTMLAttributes } from 'vue';
