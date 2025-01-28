@@ -3,15 +3,12 @@ import { type User, loginSchema, useUserStore } from '~/src/entities/user';
 
 // @TODO локализация
 
-export const useLoginForm = () => {
+interface Params {
+	onError?: (error: unknown) => void;
+	onSuccess?: (user: User) => void;
+}
 
-	// @todo есть такое чувство что не отработает нормально
-	// надо проверять
-	const emits = defineEmits<{
-		'submit.success': [user: User];
-		'submit.error': [error: Error];
-	}>();
-
+export const useLoginForm = ({ onError, onSuccess }: Params = {}) => {
 	const userStore = useUserStore();
 	const snackbar = useSnackbar();
 	const { defineField, handleSubmit } = useForm({
@@ -22,9 +19,6 @@ export const useLoginForm = () => {
 		},
 	});
 
-	const email = defineField('email');
-	const password = defineField('password');
-
 	const submit = handleSubmit(async (values) => {
 		try {
 			const user = await userStore.login.executeWithThrow(values);
@@ -34,18 +28,18 @@ export const useLoginForm = () => {
 				text: 'Вы успешно вошли в аккаунт',
 			});
 
-			emits('submit.success', user);
+			onSuccess?.(user);
 		} catch (e) {
 			snackbar.add({ type: 'error', text: 'Ошибка входа в аккаунт' });
-			emits('submit.error', e as Error);
+			onError?.(e);
 		}
 	});
 
 	return {
 		submit,
 		fields: {
-			email,
-			password,
+			email: defineField('email'),
+			password: defineField('password'),
 		},
 	};
 };

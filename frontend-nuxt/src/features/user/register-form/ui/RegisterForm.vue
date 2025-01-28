@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import { useRegisterForm } from '../model/useRegisterForm';
+import type { User } from '~/src/entities/user';
 
 // @todo локализация
 
-const { submit, fields } = useRegisterForm();
+const emits = defineEmits<{
+	'submit.success': [user: User];
+	'submit.error': [error: unknown];
+}>();
+
+const { submit, fields } = useRegisterForm({
+	onError: (error) => emits('submit.error', error),
+	onSuccess: (user) => emits('submit.success', user),
+});
 const {
 	email: [email, emailAttrs],
 	fullName: [fullName, fullNameAttrs],

@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import { useLoginForm } from '../model/useLoginForm';
+import type { User } from '~/src/entities/user';
 
 // @todo локализация
 
-const { submit, fields } = useLoginForm();
+const emits = defineEmits<{
+	'submit.success': [user: User];
+	'submit.error': [error: unknown];
+}>();
+
+const { submit, fields } = useLoginForm({
+	onError: (error) => emits('submit.error', error),
+	onSuccess: (user) => emits('submit.success', user),
+});
 const {
 	email: [email, emailAttrs],
 	password: [password, passwordAttrs],

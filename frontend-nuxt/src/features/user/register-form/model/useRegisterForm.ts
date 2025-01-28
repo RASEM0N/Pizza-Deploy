@@ -1,17 +1,12 @@
 import { toTypedSchema } from '@vee-validate/zod';
 import { type User, registerSchema, useUserStore } from '~/src/entities/user';
 
-// @TODO локализация
+interface Params {
+	onError?: (error: unknown) => void;
+	onSuccess?: (user: User) => void;
+}
 
-export const useRegisterForm = () => {
-
-	// @todo есть такое чувство что не отработает нормально
-	// надо проверять
-	const emits = defineEmits<{
-		'submit.success': [user: User];
-		'submit.error': [error: Error];
-	}>();
-
+export const useRegisterForm = ({ onError, onSuccess }: Params = {}) => {
 	const userStore = useUserStore();
 	const snackbar = useSnackbar();
 	const { defineField, handleSubmit } = useForm({
@@ -33,15 +28,16 @@ export const useRegisterForm = () => {
 		try {
 			const user = await userStore.register.executeWithThrow(values);
 
+			// @TODO локализация
 			snackbar.add({
 				type: 'success',
 				text: 'Вы успешно зарегистировароли аккаунт',
 			});
 
-			emits('submit.success', user);
+			onSuccess?.(user);
 		} catch (e) {
 			snackbar.add({ type: 'error', text: 'Ошибка регистрации' });
-			emits('submit.error', e as Error);
+			onError?.(e);
 		}
 	});
 
