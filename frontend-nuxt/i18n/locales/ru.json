@@ -51,6 +51,9 @@
     "type": {
       "traditional": "Традиционная",
       "thin": "Тонкая"
+    },
+    "form": {
+      "add": "Добавить в корзину за { price } ₽"
     }
   },
   "product_filter": {

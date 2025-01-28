@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// @TODO Локализация плиз
-
 import type { IProduct, IProductItem } from '~/src/entities/product';
 
 defineProps<{
@@ -9,6 +7,7 @@ defineProps<{
 	loading: boolean;
 }>();
 
+const { t } = useI18n();
 const emits = defineEmits<{
 	submit: [itemId: number];
 }>();
@@ -31,7 +30,7 @@ const emits = defineEmits<{
 				:loading="loading"
 				@click="emits('submit', productItem.id)"
 			>
-				Добавить в корзину за {{ productItem.price }} ₽
+				{{ t('product.form.add', { price: productItem.price }) }}
 			</UiButton>
 		</div>
 	</div>

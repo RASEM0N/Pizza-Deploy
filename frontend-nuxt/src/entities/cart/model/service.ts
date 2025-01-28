@@ -16,10 +16,10 @@ export const useCartStore = defineStore('cart', () => {
 	);
 
 	const createCart = useAsync(
-		(itemId: number, ingredients: number[]) => {
+		(productItemId: number, ingredients: number[]) => {
 			return $apiFetch<Cart>('/api/cart', {
 				method: 'POST',
-				body: { itemId, ingredients },
+				body: { productItemId, ingredients },
 			});
 		},
 		{ synchronizationRef: cart },

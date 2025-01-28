@@ -8,15 +8,15 @@ import ProductPizzaChooseForm from './ProductPizzaChooseForm.vue';
 import ProductChooseForm from './ProductChooseForm.vue';
 
 const emits = defineEmits<{
-	'submit.success': [cart: Cart];
-	'submit.error': [error: unknown];
+	success: [cart: Cart];
+	error: [error: unknown];
 }>();
 
 const { product } = defineProps<{ product: IProduct }>();
 const { firstItem, submit, loading } = useProductForm({
 	product,
-	onError: (error) => emits('submit.error', error),
-	onSuccess: (product) => emits('submit.success', product),
+	onError: (error) => emits('error', error),
+	onSuccess: (product) => emits('success', product),
 });
 
 // @TODO странная проверка v-if="firstItem?.pizzaType"

@@ -25,7 +25,7 @@ const router = useRouter();
 		<UiDialogContent
 			class="p-0 w-[1060px] max-w-[1060px] min-h-[500px] bg-white overflow-hidden"
 		>
-			<ProductForm :product="data" @submit.success="router.back()" />
+			<ProductForm :product="data" @success="router.back()" />
 		</UiDialogContent>
 	</UiDialog>
 </template>
