@@ -318,9 +318,6 @@ export const productWithIngredientsItems = (entities: any[]) => {
 		(result, { id }) => [
 			...result,
 			generateProductItem({ productId: id, pizzaType: 1, size: 20 }),
-			generateProductItem({ productId: id, pizzaType: 1, size: 30 }),
-			generateProductItem({ productId: id, pizzaType: 1, size: 40 }),
-			generateProductItem({ productId: id, pizzaType: 2, size: 20 }),
 			generateProductItem({ productId: id, pizzaType: 2, size: 30 }),
 			generateProductItem({ productId: id, pizzaType: 2, size: 40 }),
 		],

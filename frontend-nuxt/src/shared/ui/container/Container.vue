@@ -5,7 +5,7 @@ defineModel<{
 }>();
 </script>
 <template>
-	<div class="mx-auto max-w-[1280px]">
+	<div class="mx-auto max-w-[1280px] overflow-hidden">
 		<slot></slot>
 	</div>
 </template>

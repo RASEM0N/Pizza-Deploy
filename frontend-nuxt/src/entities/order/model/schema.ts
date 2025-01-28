@@ -2,7 +2,7 @@ import { object, string } from 'zod';
 
 const properties = () => {
 	// @TODO локализация
-	const { t } = useI18n();
+	const { $i18n } = useNuxtApp()
 
 	return {
 		email: string(),

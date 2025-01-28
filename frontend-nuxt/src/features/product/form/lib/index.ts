@@ -51,8 +51,8 @@ export const getAvailableProductItems = (
 	items: IProductItem[],
 ): AvailableProductVariant[] => {
 	const availableProducts = items.filter((v) => v.pizzaType === pizzaType);
-	return defaultProductSizes().map((v) => ({
-		...v,
-		disabled: !availableProducts.some((v) => v.size === pizzaType),
+	return defaultProductSizes().map((size) => ({
+		...size,
+		disabled: !availableProducts.some((v) => v.size === size.value),
 	}));
 };

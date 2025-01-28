@@ -13,11 +13,11 @@ export const useAuthTabs = (initTab: Tab = 'login') => {
 
 	const componentTabs: { [key in Tab]: TabInfo } = {
 		login: {
-			name: t('auth.login.name'),
+			name: t('user.tabs.register'),
 			component: LoginForm,
 		},
 		register: {
-			name: t('auth.register.name'),
+			name: t('user.tabs.login'),
 			component: RegisterForm,
 		},
 	};

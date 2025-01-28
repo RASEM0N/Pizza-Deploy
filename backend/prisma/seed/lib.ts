@@ -10,13 +10,27 @@ export const generateProductItem = ({
 	size,
 }: {
 	productId: number;
-	pizzaType?: 1 | 2;
+	pizzaType?: 1 | 2 ;
 	size?: 20 | 30 | 40;
 }) => {
+	let price;
+
+	if (size === 20) {
+		price = randomDecimalNumber(150, 250)
+	}
+
+	if (size === 30) {
+		price = randomDecimalNumber(251, 400)
+	}
+
+	if (size === 40) {
+		price = randomDecimalNumber(401, 550)
+	}
+
 	return {
 		pizzaType,
 		productId,
 		size,
-		price: randomDecimalNumber(190, 600),
+		price,
 	} as Prisma.ProductItemUncheckedCreateInput;
 };

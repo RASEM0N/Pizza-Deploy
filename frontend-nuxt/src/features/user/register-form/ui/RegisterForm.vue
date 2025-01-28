@@ -4,6 +4,7 @@ import type { User } from '~/src/entities/user';
 
 // @todo локализация
 
+const { t } = useI18n();
 const emits = defineEmits<{
 	'submit.success': [user: User];
 	'submit.error': [error: unknown];
@@ -24,7 +25,7 @@ const {
 	<form @submit="submit" class="flex flex-col gap-5">
 		<div class="flex justify-between items-center">
 			<div class="mr-2">
-				<UiTitle>Регистрация</UiTitle>
+				<UiTitle>{{ t('user.register.title') }}</UiTitle>
 			</div>
 
 			<NuxtImg
@@ -35,21 +36,33 @@ const {
 			/>
 		</div>
 
-		<UiFormInput v-model="email" v-bind="emailAttrs" label="E-Mail" required />
+		<UiFormInput
+			v-model="email"
+			v-bind="emailAttrs"
+			:label="t('common.input.email')"
+			required
+		/>
 		<UiFormInput
 			v-model="fullName"
 			v-bind="fullNameAttrs"
-			label="Полное имя"
+			:label="t('common.input.full_name')"
 			required
 		/>
-		<UiFormInput v-model="password" v-bind="passwordAttrs" label="Пароль" required />
+		<UiFormInput
+			v-model="password"
+			v-bind="passwordAttrs"
+			:label="t('common.input.password')"
+			required
+		/>
 		<UiFormInput
 			v-model="confirmPassword"
 			v-bind="confirmPasswordAttrs"
-			label="Подвердите пароль"
+			:label="t('common.input.confirm_password')"
 			required
 		/>
 
-		<UiButton class="h-12 text-base" type="submit">Зарегистрироватся</UiButton>
+		<UiButton class="h-12 text-base" type="submit">
+			{{ t('user.register.submit') }}
+		</UiButton>
 	</form>
 </template>

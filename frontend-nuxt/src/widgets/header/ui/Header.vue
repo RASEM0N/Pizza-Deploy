@@ -5,7 +5,10 @@ import { AuthModal } from '~/src/widgets/auth-modal';
 import { SearchProducts } from '~/src/features/product/search';
 import { CartDrawerButton } from '~/src/features/cart/drawer';
 
-defineProps<{ hasSearch?: boolean; hasCart?: boolean }>();
+const { hasCart = true, hasSearch = true } = defineProps<{
+	hasSearch?: boolean;
+	hasCart?: boolean;
+}>();
 
 const { t } = useI18n();
 </script>

@@ -1,14 +1,13 @@
 import { toTypedSchema } from '@vee-validate/zod';
 import { type User, loginSchema, useUserStore } from '~/src/entities/user';
 
-// @TODO локализация
-
 interface Params {
 	onError?: (error: unknown) => void;
 	onSuccess?: (user: User) => void;
 }
 
 export const useLoginForm = ({ onError, onSuccess }: Params = {}) => {
+	const { t } = useI18n();
 	const userStore = useUserStore();
 	const snackbar = useSnackbar();
 	const { defineField, handleSubmit } = useForm({
@@ -23,14 +22,10 @@ export const useLoginForm = ({ onError, onSuccess }: Params = {}) => {
 		try {
 			const user = await userStore.login.executeWithThrow(values);
 
-			snackbar.add({
-				type: 'success',
-				text: 'Вы успешно вошли в аккаунт',
-			});
-
+			snackbar.add({ type: 'success', text: t('user.login.success') });
 			onSuccess?.(user);
 		} catch (e) {
-			snackbar.add({ type: 'error', text: 'Ошибка входа в аккаунт' });
+			snackbar.add({ type: 'error', text: t('user.login.error') });
 			onError?.(e);
 		}
 	});

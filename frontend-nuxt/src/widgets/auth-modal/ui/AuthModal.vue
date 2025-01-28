@@ -11,7 +11,7 @@ const { tabInfo, switchTab } = useAuthTabs();
 		<UiDialogTrigger as-child>
 			<slot></slot>
 		</UiDialogTrigger>
-		<UiDialogContent>
+		<UiDialogContent class="w-[450px] bg-white p-10">
 			<component :is="tabInfo.component" @submit.success="open = false"></component>
 
 			<div class="flex gap-2">

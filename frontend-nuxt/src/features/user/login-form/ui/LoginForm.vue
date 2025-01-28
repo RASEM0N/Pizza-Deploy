@@ -2,8 +2,7 @@
 import { useLoginForm } from '../model/useLoginForm';
 import type { User } from '~/src/entities/user';
 
-// @todo локализация
-
+const { t } = useI18n();
 const emits = defineEmits<{
 	'submit.success': [user: User];
 	'submit.error': [error: unknown];
@@ -22,10 +21,8 @@ const {
 	<form @submit="submit" class="flex flex-col gap-5">
 		<div class="flex justify-between items-center">
 			<div class="mr-2">
-				<UiTitle>Вход в аккаунт</UiTitle>
-				<p class="text-gray-400">
-					Введите свою почту, чтобы войти в свой аккаунт
-				</p>
+				<UiTitle>{{ t('user.login.title') }}</UiTitle>
+				<p class="text-gray-400">{{ t('user.login.description') }}</p>
 			</div>
 
 			<NuxtImg
@@ -36,9 +33,21 @@ const {
 			/>
 		</div>
 
-		<UiFormInput v-model="email" v-bind="emailAttrs" label="E-Mail" required />
-		<UiFormInput v-model="password" v-bind="passwordAttrs" label="Пароль" required />
+		<UiFormInput
+			v-model="email"
+			v-bind="emailAttrs"
+			:label="t('common.input.email')"
+			required
+		/>
+		<UiFormInput
+			v-model="password"
+			v-bind="passwordAttrs"
+			:label="t('common.input.password')"
+			required
+		/>
 
-		<UiButton class="h-12 text-base" type="submit">Войти</UiButton>
+		<UiButton class="h-12 text-base" type="submit">
+			{{ t('user.login.submit') }}
+		</UiButton>
 	</form>
 </template>

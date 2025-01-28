@@ -7,6 +7,7 @@ interface Params {
 }
 
 export const useRegisterForm = ({ onError, onSuccess }: Params = {}) => {
+	const { t } = useI18n();
 	const userStore = useUserStore();
 	const snackbar = useSnackbar();
 	const { defineField, handleSubmit } = useForm({
@@ -19,24 +20,14 @@ export const useRegisterForm = ({ onError, onSuccess }: Params = {}) => {
 		},
 	});
 
-	const email = defineField('email');
-	const fullName = defineField('fullName');
-	const password = defineField('password');
-	const confirmPassword = defineField('confirmPassword');
-
 	const submit = handleSubmit(async (values) => {
 		try {
 			const user = await userStore.register.executeWithThrow(values);
 
-			// @TODO локализация
-			snackbar.add({
-				type: 'success',
-				text: 'Вы успешно зарегистировароли аккаунт',
-			});
-
+			snackbar.add({ type: 'success', text: t('user.register.success') });
 			onSuccess?.(user);
 		} catch (e) {
-			snackbar.add({ type: 'error', text: 'Ошибка регистрации' });
+			snackbar.add({ type: 'error', text: t('user.register.error') });
 			onError?.(e);
 		}
 	});
@@ -44,10 +35,10 @@ export const useRegisterForm = ({ onError, onSuccess }: Params = {}) => {
 	return {
 		submit,
 		fields: {
-			email,
-			fullName,
-			password,
-			confirmPassword,
+			email: defineField('email'),
+			fullName: defineField('fullName'),
+			password: defineField('password'),
+			confirmPassword: defineField('confirmPassword'),
 		},
 	};
 };

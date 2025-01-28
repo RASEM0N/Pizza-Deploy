@@ -17,6 +17,7 @@ const select = (variant: AvailableProductVariant) => {
 			@click="select(variant)"
 			v-for="variant in variants"
 			:key="variant.name"
+			:disabled="variant.disabled"
 			:class="[
 				'flex items-center justify-center cursor-pointer h-[30px] px-5 flex-1',
 				'rounded-3xl transition-all duration-400 text-sm',
