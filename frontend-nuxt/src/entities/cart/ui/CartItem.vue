@@ -35,7 +35,7 @@ const description = computed(() => getCartDetailDescription(item));
 				:value="item.quantity"
 			/>
 
-			<button @click="emits('remove')">
+			<button type="button" @click="emits('remove')">
 				<IconX
 					class="text-gray-400 cursor-pointer hover:text-gray-600"
 					:size="20"

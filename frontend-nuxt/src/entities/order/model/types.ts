@@ -20,3 +20,10 @@ export interface Order extends Common {
 	comment?: string;
 	userId: number;
 }
+
+export interface OrderPriceDetails {
+	taxesPrice: number;
+	deliveryPrice: number;
+	cartPrice: number;
+	totalPrice: number;
+}

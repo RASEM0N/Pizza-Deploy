@@ -31,8 +31,7 @@ const onUpdateOpen = (value: boolean) => {
 			draggable="false"
 			:key="story.id"
 			:src="story.previewImageUrl"
-			height="250"
-			width="200"
+			class="w-[200px] h-[250px]"
 			@click="selectedStory = story"
 		/>
 

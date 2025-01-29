@@ -1,10 +1,11 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { OrderService } from './order.service';
-import { CreateOrderDto } from '@/modules/order/dto/create.dto';
 import { Cookie } from '@/shared/cookie';
 import { YookassaPaymentCallback } from '@/shared/yookassa';
 import { OrderStatus } from '@prisma/client';
+import { CreateOrderDto } from './dto/create.dto';
+import { PriceDetails } from './dto/get-details.dto';
 
 @ApiTags('Order')
 @Controller('order')
@@ -16,8 +17,7 @@ export class OrderController {
 		@Cookie('cart-token') token: string,
 		@Body() dto: CreateOrderDto,
 	): Promise<string> {
-		const paymentData = await this.orderService.create(token, dto);
-		return paymentData.confirmation.confirmation_url;
+		return this.orderService.create(token, dto);
 	}
 
 	@Post('callback')
@@ -26,5 +26,10 @@ export class OrderController {
 			+data.object.metadata.order_id,
 			OrderStatus.SUCCEEDED,
 		);
+	}
+
+	@Get('details')
+	async priceDetails(@Cookie('cart-token') token: string): Promise<PriceDetails> {
+		return this.orderService.priceDetails(token);
 	}
 }

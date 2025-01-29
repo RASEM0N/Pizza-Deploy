@@ -42,12 +42,23 @@ export const useCartStore = defineStore('cart', () => {
 		{ synchronizationRef: cart },
 	);
 
+	const payCart = useAsync(
+		(values: {
+			email: string;
+			fullName: string;
+			phone: string;
+			address: string;
+			comment: string;
+		}) => $apiFetch<string>('/api/order', { method: 'POST', body: values }),
+	);
+
 	return {
 		cart,
 		cartDetails,
 		totalAmount,
 
 		getCart,
+		payCart,
 		createCart,
 		updateCart,
 		removeCart,

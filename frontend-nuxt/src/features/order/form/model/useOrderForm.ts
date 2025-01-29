@@ -1,11 +1,16 @@
-import { $apiFetch } from '~/src/shared/api';
-import type { Order } from '~/src/entities/order';
+import { type OrderPriceDetails, orderSchema } from '~/src/entities/order';
 
 import { toTypedSchema } from '@vee-validate/zod';
-import { orderSchema } from '~/src/entities/order';
 import { useUserStore } from '~/src/entities/user';
+import { useCartStore } from '~/src/entities/cart';
+import { useAsync } from '~/src/shared/lib/useAsync';
+import { $apiFetch } from '~/src/shared/api';
+
+// @TODO чето перегруженный какой-то
 
 export const useOrderForm = () => {
+	const snackbar = useSnackbar();
+	const cartStore = useCartStore();
 	const userStore = useUserStore();
 	const loadingFormData = computed(() => userStore.me.loading);
 
@@ -32,15 +37,25 @@ export const useOrderForm = () => {
 		},
 	});
 
+	const getPriceDetails = useAsync(() =>
+		$apiFetch<OrderPriceDetails>('/api/order/details'),
+	);
+
 	const submit = handleSubmit(async (values) => {
-		// .... @TODO надо как то обработать
-		// @TODO надо вынести
-		await $apiFetch<Order>('/api/order', { method: 'POST', body: values });
+		try {
+			window.location.href = await cartStore.payCart.executeWithThrow(values);
+		} catch (e) {
+			snackbar.add({
+				type: 'error',
+				text: 'Ошибка создания заказа',
+			});
+		}
 	});
 
 	return {
 		submit,
 		loadingFormData,
+		getPriceDetails,
 		fields: {
 			email: defineField('email'),
 			fullName: defineField('fullName'),

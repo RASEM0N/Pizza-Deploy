@@ -11,6 +11,7 @@
 - Хочу автогенерацию моделек, enum и dto в типы, класс
 
 ## Todo Nest
+- Заменить получение токена в cart-token, на полученин CurrentCart
 - Добавить suspense для модалок
 - Добавить suspense для nested pages
 
@@ -27,6 +28,7 @@
 - запросы с findFirstAndThrow по итогу 500 ошибку тригерят
 
 ## Todo Nuxt
+- Добавить везде обработку Loading и т.д..
 - Loading с учетом гидрации
 - /Profile & /Order запускать без SSR 
 - Утащить i18n конфиг отсюда https://github.com/roke-to/roketo-business-ui/blob/master/apps/near-dapp/src/app/initI18n.ts

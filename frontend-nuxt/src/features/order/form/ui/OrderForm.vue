@@ -1,15 +1,20 @@
 <script setup lang="ts">
-import { useCartStore } from '~/src/entities/cart';
 import { useOrderForm } from '../model/useOrderForm';
+import { useCartStore } from '~/src/entities/cart';
 
 import OrderFormCarts from './OrderFormCarts.vue';
 import OrderFormPersonal from './OrderFormPersonal.vue';
 import OrderFormAddress from './OrderFormAddress.vue';
 import OrderFormDetails from './OrderFormDetails.vue';
 
-// @TODO локализация
-const cartStore = useCartStore();
-const { submit, fields } = useOrderForm();
+// @TODO
+// - обработать загрузку Cart
+// - обработать загрузку User
+// - обработать загрузку налогов
+// - локализация
+// - при изменение кол-ва товаров у нас цена не изменяется
+
+const { submit, fields, getPriceDetails } = useOrderForm();
 
 const {
 	email: [email, emailAttrs],
@@ -19,7 +24,10 @@ const {
 	fullName: [fullName, fullNameAttrs],
 } = fields;
 
-// @TODO обработать кейс с загрузкой данных формы
+onMounted(() => {
+	// @TODO при измение карточки надо обновлять данные тут
+	getPriceDetails.execute();
+});
 </script>
 <template>
 	<div>
@@ -44,7 +52,21 @@ const {
 			</div>
 
 			<div class="w-[450px]">
-				<OrderFormDetails :total-amount="cartStore.totalAmount" />
+				<!--@TODO 🤡🤡🤡🤡🤡🤡-->
+				<OrderFormDetails
+					v-if="getPriceDetails.result.value"
+					:details="getPriceDetails.result.value"
+				>
+					<!--@TODO 🤡🤡🤡🤡🤡🤡-->
+					<UiButton
+						:disabled="getPriceDetails.result.value?.cartPrice === 0"
+						type="submit"
+						class="w-full h-14 rounded-2xl mt-6 text-base font-bold"
+					>
+						Перейти к оплате
+						<IconArrowRight class="w-5 ml-2" />
+					</UiButton>
+				</OrderFormDetails>
 			</div>
 		</form>
 	</div>
