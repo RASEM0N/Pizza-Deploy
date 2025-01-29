@@ -4,17 +4,13 @@ version: "3"
 
 services:
     backend:
-      container_name: api
+      container_name: backend
       build: backend
 
-    nuxt:
-      container_name: client/nuxt
-      build: frontend-nuxt
+    client:
+      container_name: client
+      build: client
 
-    nextjs:
-      container_name: client/nextjs
-      build: frontend-nextjs
-
-    telegram:
-      container_name: client/telegram-bot
-      build: telegram-bot
+    telegram_bot:
+      container_name: telegram_bot
+      build: telegram_bot
