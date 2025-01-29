@@ -5,7 +5,12 @@ import { type User, useUserStore } from '~/src/entities/user';
 const { t } = useI18n();
 const useStore = useUserStore();
 const { user } = defineProps<{ user: User }>();
-const { submit, fields } = useProfileForm({ user });
+const { submit, fields } = useProfileForm({
+	user,
+	onSuccess() {
+		navigateTo('/');
+	},
+});
 const {
 	email: [email, emailAttrs],
 	fullName: [fullName, fullNameAttrs],

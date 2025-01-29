@@ -34,7 +34,9 @@ export const useUserStore = defineStore('user', () => {
 		(data: Pick<User, 'email' | 'fullName' | 'password'>) =>
 			$apiFetch<User>('/api/user', {
 				method: 'PUT',
-				body: data,
+				body: Object.fromEntries(
+					Object.entries(data).filter(([_, value]) => value),
+				),
 			}),
 		{ synchronizationRef: user },
 	);

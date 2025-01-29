@@ -8,6 +8,7 @@ interface Params {
 }
 
 export const useProfileForm = ({ user, onSuccess, onError }: Params) => {
+	const { t } = useI18n();
 	const userStore = useUserStore();
 	const snackbar = useSnackbar();
 
@@ -25,10 +26,10 @@ export const useProfileForm = ({ user, onSuccess, onError }: Params) => {
 		try {
 			const user = await userStore.update.executeWithThrow(values);
 
-			snackbar.add({ type: 'success', text: 'gdfsgdfgds' });
+			snackbar.add({ type: 'success', text: t('user.update_user.success') });
 			onSuccess?.(user);
 		} catch (e) {
-			snackbar.add({ type: 'error', text: 'gdfsfsdfsd' });
+			snackbar.add({ type: 'error', text: t('user.update_user.error') });
 			onError?.(e);
 		}
 	});
