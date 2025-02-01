@@ -48,23 +48,6 @@ services:
       depends_on:
         - backend
 
-    # --- --- --- --- --- ---
-#    nginx:
-#      image: nginx:stable-alpine
-#      container_name: nginx
-#      build: ./nginx
-#      restart: always
-#      ports:
-#        - "${NGINX_PORT}:80"
-#      environment:
-#        - NGINX_PORT=${NGINX_PORT}
-#        - NGINX_HOST=${APP_HOST}
-#        - FRONTEND_URL=http://frontend:${FRONTEND_PORT}
-#        - BACKEND_URL=http://frontend:${BACKEND_PORT}
-#      depends_on:
-#        - frontend
-#        - backend
-
 volumes:
   pgdata:
 
