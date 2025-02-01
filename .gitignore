@@ -5,5 +5,5 @@ output
 build
 *env*
 !.env.template
-client
-server
+frontend
+backend

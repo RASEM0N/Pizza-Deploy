@@ -16,7 +16,9 @@ services:
         - "${FRONTEND_PORT}:3000"
       environment:
         - PORT=3000
-        - API_URL=${}
+        - NODE_ENV=production
+        - API_URL=${FRONTEND_URL}
+        - API_URL=${BACKEND_URL}
       depends_on:
         - backend
 
@@ -60,6 +62,7 @@ services:
 
     # --- --- --- --- --- ---
     nginx:
+      image: nginx:stable-alpine
       container_name: nginx
       build: ./nginx
       restart: always
