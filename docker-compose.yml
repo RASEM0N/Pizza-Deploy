@@ -1,50 +1,21 @@
 version: "3"
 
-volumes:
-    pgdata:
-
 services:
-
-    # --- --- --- --- --- ---
-    frontend:
-      container_name: pizza-frontend
-      build:
-        context: ./frontend
-        dockerfile: DockerFileFrontend
-      restart: always
-      ports:
-        - "${FRONTEND_PORT}:3000"
-      environment:
-        - PORT=3000
-        - NODE_ENV=production
-        - API_URL=${FRONTEND_URL}
-        - API_URL=${BACKEND_URL}
-      depends_on:
-        - backend
 
     # --- --- --- --- --- ---
     backend:
       container_name: pizza-backend
-      build:
-        context: ./backend
-        dockerfile: DockerFileBackend
+      build: ./backend
       restart: always
       ports:
         - "${BACKEND_PORT}:3000"
       environment:
         - PORT=3000
-        - DATABASE_URL=${POSTGRES_URL}
-
-        - YOOKASSA_URL=${YOOKASSA_URL}
-        - YOOKASSA_CALLBACK_URL=${YOOKASSA_CALLBACK_URL}
-        - YOOKASSA_STORE_ID=${YOOKASSA_STORE_ID}
-        - YOOKASSA_API_KEY=${YOOKASSA_API_KEY}
-
-        - RESEND_KEY=${RESEND_KEY}
-        - JWT_SECRET=${JWT_SECRET}
-        - JWY_EXPIRE=${JWY_EXPIRE}
+        - DATABASE_URL=postgresql://${PG_USER}:${PG_PASSWORD}@db:5432/${PG_DB}
       depends_on:
         - db
+      networks:
+        - deployment-network
 
     # --- --- --- --- --- ---
     db:
@@ -54,25 +25,49 @@ services:
       ports:
         - "${DB_PORT}:5432"
       environment:
-        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-        - POSTGRES_USER=${POSTGRES_USER}
-        - POSTGRES_DB=${POSTGRES_DB}
+        - POSTGRES_PASSWORD=${PG_PASSWORD}
+        - POSTGRES_USER=${PG_USER}
+        - POSTGRES_DB=${PG_DB}
       volumes:
         - pgdata:/var/lib/postgresql/data
+      networks:
+        - deployment-network
 
     # --- --- --- --- --- ---
-    nginx:
-      image: nginx:stable-alpine
-      container_name: nginx
-      build: ./nginx
+    frontend:
+      container_name: pizza-frontend
+      build: ./frontend
       restart: always
       ports:
-        - "${NGINX_PORT}:80"
+        - "${FRONTEND_PORT}:3000"
       environment:
-        - NGINX_PORT=${NGINX_PORT}
-        - NGINX_HOST=${APP_HOST}
-        - FRONTEND_URL=http://frontend:${FRONTEND_PORT}
-        - BACKEND_URL=http://frontend:${BACKEND_PORT}
+        - PORT=3000
+        - NODE_ENV=production
+        - APP_URL=${FRONTEND_URL}
+        - API_URL=${BACKEND_URL}
       depends_on:
-        - frontend
         - backend
+
+    # --- --- --- --- --- ---
+#    nginx:
+#      image: nginx:stable-alpine
+#      container_name: nginx
+#      build: ./nginx
+#      restart: always
+#      ports:
+#        - "${NGINX_PORT}:80"
+#      environment:
+#        - NGINX_PORT=${NGINX_PORT}
+#        - NGINX_HOST=${APP_HOST}
+#        - FRONTEND_URL=http://frontend:${FRONTEND_PORT}
+#        - BACKEND_URL=http://frontend:${BACKEND_PORT}
+#      depends_on:
+#        - frontend
+#        - backend
+
+volumes:
+  pgdata:
+
+networks:
+  deployment-network:
+    driver: bridge
